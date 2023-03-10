@@ -1,0 +1,36 @@
+/* pages/bookShelf/bookShelf.wxss */
+.book-shelf {
+  position: relative;
+  .addBook {
+    position: fixed;
+    right: 64rpx;
+    bottom: 64rpx;
+    width: 120rpx;
+    height: 120rpx;
+    background-color: #fff;
+    padding: 18rpx;
+    border-radius: 50%;
+  }
+}
+
+.book-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 180rpx;
+
+  .book-item {
+    width: 30vw;
+    font-size: 32rpx;
+    margin-bottom: 32rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    image {
+      width: 120rpx;
+      height: 120rpx;
+      margin-bottom: 10rpx;
+    }
+  }
+}

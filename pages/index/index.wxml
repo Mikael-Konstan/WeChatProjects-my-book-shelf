@@ -1,0 +1,9 @@
+<!--index.wxml-->
+<view class="container">
+  <text class="user-motto" bindtap="toLogs">Logs</text>
+  <text class="user-motto" bindtap="toBookShelf">{{motto}}</text>
+  <text class="user-motto" bindtap="toDemo">Demo</text>
+  <text class="user-motto" bindtap="toSkill">Skill</text>
+  <text class="user-motto" bindtap="toDrawer">Drawer</text>
+  <view class="userinfo"></view>
+</view>

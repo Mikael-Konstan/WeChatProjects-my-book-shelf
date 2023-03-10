@@ -1,0 +1,16 @@
+<!--pages/skill/skill.wxml-->
+<view class="container">
+  <text>pages/bookShelf</text>
+  <text bindtap="writeFile" class="btn">writeFile</text>
+  <text bindtap="getFileList" class="btn">getFileList</text>
+  <text bindtap="readFile" class="btn">readFile</text>
+  <text bindtap="chooseImage" class="btn">chooseImage</text>
+  <text bindtap="chooseFile" class="btn">chooseFile</text>
+  <!-- <image src="{{imgSrc}}" mode="" /> -->
+  <!-- <cover-image src="{{imgSrc}}"></cover-image> -->
+
+  <view data-status="open" bindtap="handleMaskToggle">抽屉</view>
+  <view animation="{{animationData}}" bindtap='handleMaskToggle' data-status="close" class="drawer-box" wx:if="{{model}}">
+    <view class="mark-box">抽屉内容</view>
+  </view>
+</view>

@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/demo/demo",
+    "pages/bookShelf/bookShelf",
+    "pages/detail/detail",
+    "pages/skill/skill",
+    "pages/drawer/drawer"
+  ],
+  "entryPagePath": "pages/bookShelf/bookShelf",
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": false,
+    "color": "#515151",
+    "selectedColor": "#09f",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/bookShelf/bookShelf",
+        "text": "书架",
+        "iconPath": "/static/bookShelf.png",
+        "selectedIconPath": "/static/bookShelf_active.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "我的",
+        "iconPath": "/static/my.png",
+        "selectedIconPath": "/static/my_active.png"
+      }
+    ]
+  }
+}

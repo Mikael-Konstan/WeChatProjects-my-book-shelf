@@ -1,0 +1,68 @@
+<!--pages/detail/detail.wxml-->
+<view class="detail">
+  <!-- 正文滚动 -->
+  <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" class="content-container" style="background-color: {{theme[curTheme].text_bgc}};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
+    <!-- 正文 -->
+    <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index">{{item}}</view>
+    <!-- 章节切换按钮 -->
+    <view class="content-btn">
+      <button class="mini-btn" type="default" size="mini" catchtap="previousChapter">上一章</button>
+      <button class="mini-btn" type="default" size="mini" data-status="open" catchtap="handleListToggle">目录</button>
+      <button class="mini-btn" type="default" size="mini" catchtap="nextChapter">下一章</button>
+    </view>
+  </scroll-view>
+  <!-- 目录弹窗 -->
+  <view animation="{{listAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box" wx:if="{{listFlag}}">
+    <view class="list-real-box" style="background-color: {{theme[curTheme].list_bgc}};">
+      <scroll-view class="list-container" scroll-y="true" scroll-top="{{listScrollTop}}">
+        <view class="list-item" wx:for="{{subFile}}" wx:key="index" data-chapter="{{index}}" bindtap='handleJumpChapter' style="color: {{ index === curChapter ? theme[curTheme].list_cur_font : index < curChapter ? theme[curTheme].list_font : theme[curTheme].list_next_font }};">{{item.chapterName}}</view>
+      </scroll-view>
+    </view>
+  </view>
+  <!-- 设置弹窗 -->
+  <view animation="{{settingAnimation}}" class="setting-box" wx:if="{{settingFlag}}" style="background-color: {{theme[curTheme].list_bgc}};color: {{theme[curTheme].list_font}};">
+    <!-- 上一章  下一章 -->
+    <view class="chapter-container" wx:if="{{!settingDetailFlag}}">
+      <view class="chapter-btn" catchtap="previousChapter">上一章</view>
+      <!-- <slider bindchange="slider3change" backgroundColor="#353638" block-size="24" block-color="#B5B5B5" step="1" min="1" max="{{subFile.length}}" show-value /> -->
+      <view class="chapter-btn" catchtap="nextChapter">下一章</view>
+    </view>
+    <view class="setting-more-container" wx:if="{{settingDetailFlag}}">
+      <!-- 字体大小 -->
+      <view class="setting-more-size">
+        <view class="setting-more-size-down" data-status="{{false}}" catchtap='handleFontSize'>A-</view>
+        <slider bindchange="fontSizeChange" backgroundColor="#353638" block-size="24" block-color="#B5B5B5" step="2" min="{{fontSizeMin}}" max="{{fontSizeMax}}" value="{{fontSize}}" show-value />
+        <view class="setting-more-size-up" data-status="{{true}}" catchtap='handleFontSize'>A+</view>
+      </view>
+      <!-- 行高等级 -->
+      <view class="setting-more-line-height">
+        <view class="setting-more-line-height-down" data-status="{{false}}" catchtap='handleLineHeight'>
+          <image src="./../../static/lineHeightSmall.png" mode="" />
+        </view>
+        <slider bindchange="lineHeightChange" backgroundColor="#353638" block-size="24" block-color="#B5B5B5" step="1" min="1" max="{{lineHeights.length}}" value="{{lineHeightLevel}}" show-value />
+        <view class="setting-more-line-height-up" data-status="{{true}}" catchtap='handleLineHeight'>
+          <image src="./../../static/lineHeightBig.png" mode="" />
+        </view>
+      </view>
+      <!-- 主题 背景色 -->
+      <view class="setting-more-background">
+        <view class="setting-more-background-item" wx:for="{{theme}}" style="background-color: {{item.text_bgc}};border-color: {{index === curTheme ? '' : item.list_border}};"></view>
+      </view>
+    </view>
+    <!-- 设置tab -->
+    <view class="tab-container">
+      <view data-status="open" catchtap="handleListToggle">
+        目录
+      </view>
+      <view catchtap="nightToggle">
+        {{ night ? '白天' : '黑夜' }}
+      </view>
+      <view catchtap="settingDetailToggle">
+        阅读设置
+      </view>
+    </view>
+  </view>
+  <loading hidden="{{loadingHidden}}">
+    资源解析中... {{ percent }}%
+  </loading>
+</view>

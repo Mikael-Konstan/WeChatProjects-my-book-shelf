@@ -1,0 +1,12 @@
+<!--bookShelf.wxml-->
+<view class="book-shelf">
+  <image bindtap="chooseFile" src="/static/addBook.png" class="addBook"></image>
+  <view class="book-container">
+    <view class="book-item" wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index"
+    data-bookItem="{{bookItem}}"
+    bindtap="toDetail">
+      <image src="{{bookItem.imgSrc ? bookItem.imgSrc : '/static/book.png'}}"></image>
+      <text class="book-name"> {{bookItem.name}}</text>
+    </view>
+  </view>
+</view>

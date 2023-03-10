@@ -1,0 +1,144 @@
+/* pages/detail/detail.wxss */
+.detail {
+
+  // 正文
+  .content-container {
+    height: 100vh;
+    background-color: #D4E3D0;
+
+    .content-item {
+      word-break: break-all;
+      color: #1D2C19;
+      padding: 0 16rpx;
+    }
+
+    .content-btn {
+      display: flex;
+      justify-content: space-around;
+      padding: 60rpx 0rpx;
+
+      button {
+        color: #0099ff;
+      }
+    }
+  }
+
+  // 目录
+  .list-box {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .list-real-box {
+      background: #fff;
+      padding: 20rpx 20rpx 10rpx;
+      color: #000;
+      width: 70vw;
+      height: 100vh;
+
+      .list-container {
+        height: 100vh;
+
+        .list-item {
+          font-size: 28rpx;
+          margin-bottom: 24rpx;
+          max-height: 56rpx;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+
+  // 设置
+  .setting-box {
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    .chapter-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 76rpx;
+      padding: 24rpx 48rpx 16rpx;
+
+      slider {
+        min-width: 48%;
+      }
+    }
+
+    .setting-more-container {
+      padding: 24rpx 48rpx 16rpx;
+
+      .setting-more-size {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16rpx;
+
+        .setting-more-size-down,
+        .setting-more-size-up {
+          width: 72rpx;
+          text-align: center;
+          font-size: 42rpx;
+        }
+
+        slider {
+          min-width: 52%;
+        }
+      }
+
+      .setting-more-background {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: 16rpx;
+
+        .setting-more-background-item {
+          width: 80rpx;
+          height: 40rpx;
+          border: 1px solid #000;
+          border-radius: 8rpx;
+        }
+      }
+
+      .setting-more-line-height {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16rpx;
+
+        .setting-more-line-height-down,
+        .setting-more-line-height-up {
+          width: 72rpx;
+          text-align: center;
+
+          image {
+            width: 40rpx;
+            height: 40rpx;
+          }
+        }
+
+        slider {
+          min-width: 52%;
+        }
+      }
+
+    }
+
+    .tab-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 60rpx;
+      padding: 20rpx 32rpx 60rpx;
+    }
+  }
+}
