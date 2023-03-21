@@ -21,7 +21,7 @@ interface IIntroData {
   idx: number;
   chapterArr: string[][];
   scrollTop: number;
-  listScrollTop: number;
+  listScrollIntoView: string;
   theme: {
     text_bgc: string;
     text_font: string;
@@ -69,7 +69,7 @@ Page<IIntroData, IIntroPage>({
     idx: 0,
     chapterArr: [[]],
     scrollTop: 0,
-    listScrollTop: 0,
+    listScrollIntoView: '',
     theme: [
       {
         text_bgc: "#D4E3D0",
@@ -239,6 +239,7 @@ Page<IIntroData, IIntroPage>({
       scrollTop: 0,
     });
     this.readChildFile();
+    this.updateCurChapter();
   },
   /**
    * 更新当前所读章节数
@@ -281,9 +282,18 @@ Page<IIntroData, IIntroPage>({
       }
     }, 100);
     if (status == "open") {
+      // 往下显示八章 显示在中间
+      let curChapter = this.data.curChapter;
+      for (let i = 3; i > 0; i--) {
+        if (curChapter > 0) {
+          curChapter--
+        } else {
+          break;
+        }
+      }
       this.setData({
         listFlag: true,
-        listScrollTop: this.data.curChapter * 40,
+        listScrollIntoView: 'list' + curChapter,
       });
     }
   },

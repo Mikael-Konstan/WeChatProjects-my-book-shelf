@@ -14,8 +14,8 @@
   <!-- 目录弹窗 -->
   <view animation="{{listAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box" wx:if="{{listFlag}}">
     <view class="list-real-box" style="background-color: {{theme[curTheme].list_bgc}};">
-      <scroll-view class="list-container" scroll-y="true" scroll-top="{{listScrollTop}}">
-        <view class="list-item" wx:for="{{subFile}}" wx:key="index" data-chapter="{{index}}" bindtap='handleJumpChapter' style="color: {{ index === curChapter ? theme[curTheme].list_cur_font : index < curChapter ? theme[curTheme].list_font : theme[curTheme].list_next_font }};">{{item.chapterName}}</view>
+      <scroll-view class="list-container" scroll-y="true" scroll-into-view="{{listScrollIntoView}}">
+        <view class="list-item" wx:for="{{subFile}}" wx:key="index" data-chapter="{{index}}" bindtap='handleJumpChapter' id="{{'list' + index}}" style="color: {{ index === curChapter ? theme[curTheme].list_cur_font : index < curChapter ? theme[curTheme].list_font : theme[curTheme].list_next_font }};">{{item.chapterName}}</view>
       </scroll-view>
     </view>
   </view>
