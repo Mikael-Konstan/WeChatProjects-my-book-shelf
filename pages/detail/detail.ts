@@ -67,7 +67,7 @@ Page<IIntroData, IIntroPage>({
     num: 10,
     subFile: [],
     idx: 0,
-    chapterArr: [[""]],
+    chapterArr: [[]],
     scrollTop: 0,
     listScrollTop: 0,
     theme: [
@@ -112,14 +112,11 @@ Page<IIntroData, IIntroPage>({
         fileDir,
         splitPre,
         fileInfoField,
-        readInfoField,
         updateProgress: (percent: number) => {
           this.setData({ percent });
         },
       });
       this.setData({
-        splitPre,
-        fileInfoField,
         readInfoField,
         txtFileServ,
         file: data,
@@ -169,7 +166,7 @@ Page<IIntroData, IIntroPage>({
    */
   readChildFile() {
     console.log(this.data.curChapter);
-    // console.log(this.data.subFile);
+    console.log(this.data.subFile);
     this.data.txtFileServ
       ?.readChildFile(this.data.subFile, this.data.curChapter)
       .then(
@@ -217,7 +214,7 @@ Page<IIntroData, IIntroPage>({
     const len = this.data.subFile.length - 1;
     if (this.data.curChapter === len) return;
     // 缓存中的最后一章
-    if (this.data.idx === this.data.num) {
+    if (this.data.idx === this.data.chapterArr.length - 1) {
       this.setData({
         curChapter: this.data.curChapter + 1,
         scrollTop: 0,

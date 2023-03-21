@@ -10,15 +10,12 @@ export class TxtFileServices {
   splitPre = "/split_***";
   // 缓存文件路径 storage存储字段
   fileInfoField = "/split_***";
-  // 当前章节信息 storage存储字段
-  readInfoField = "/split_***";
   fs: WechatMiniprogram.FileSystemManager;
   updateProgress: (percent: number) => void;
   constructor(fileInfo: FileInfo) {
     this.fileDir = fileInfo.fileDir;
     this.splitPre = fileInfo.splitPre;
     this.fileInfoField = fileInfo.fileInfoField;
-    this.readInfoField = fileInfo.readInfoField;
     this.updateProgress = fileInfo.updateProgress;
     this.fs = wx.getFileSystemManager();
   }
@@ -83,19 +80,19 @@ export class TxtFileServices {
         // 子文件里写入上一章节的内容
         this.fs.appendFileSync(
           wx.env.USER_DATA_PATH + this.fileDir + fileName,
-          subfileContent.join(txtSeparator),
+          subfileContent.join(txtSeparator) + txtSeparator,
           "utf8"
         );
         // 开始新的一章
         // 更新章节名
         chapterName = String.prototype.trim.call(item);
         // 更新文件路径  满num(10)章 初始化新文件
-        chapter++;
         if (chapter % num === 0) {
           fileName = this.getChildFileName(chapter);
           // 初始化新文件
           this.initChildFile(fileName);
         }
+        chapter++;
         // 更新收集内容
         subfileContent = [];
         subFile.push({
@@ -145,7 +142,7 @@ export class TxtFileServices {
    */
   isNewChapter(content: string) {
     // const chinaReg = /[\u4E00-\u9FA5]+/; // 校验中文
-    const reg = /[第]?[0-9]*[零一二三四五六七八九十百千]*[章]{1}/g;
+    const reg = /[第]{1}[0-9零一二三四五六七八九十百千]+[章]{1}/g;
     return reg.test(content);
   }
   /**
@@ -165,6 +162,7 @@ export class TxtFileServices {
         success: (res) => {
           const data = res.data + "";
           const subBookArr = data.split(txtSeparator);
+          // console.log(subBookArr);
           const chapterArr: string[][] = [];
           let chapterArrItem: string[] = [];
           subBookArr.forEach((item) => {
@@ -174,6 +172,10 @@ export class TxtFileServices {
             }
             chapterArrItem.push(item);
           });
+          // 添加最后一章
+          if (chapterArrItem.length > 0) {
+            chapterArr.push(chapterArrItem);
+          }
           const idx = curChapter % num;
           // console.log(chapterArr);
           resolve({

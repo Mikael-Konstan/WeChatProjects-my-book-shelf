@@ -7,7 +7,6 @@ export interface FileInfo {
   fileDir: string;
   splitPre: string;
   fileInfoField: string;
-  readInfoField: string;
   updateProgress: (percent: number) => void;
 }
 
