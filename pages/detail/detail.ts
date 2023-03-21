@@ -306,6 +306,15 @@ Page<IIntroData, IIntroPage>({
     this.listToggle("close");
   },
   /**
+   * 目录列表 锚点滚动
+   */
+  handleListScroll(e: any) {
+    const anchor = e.currentTarget.dataset.anchor;
+    this.setData({
+      listScrollIntoView: anchor,
+    });
+  },
+  /**
    * 设置显隐click
    */
   handleSettingToggle() {
