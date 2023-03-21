@@ -1,11 +1,49 @@
 // pages/detail/detail.ts
-import { getSetting, saveSetting } from './../../utils/util';
+import { getSetting, saveSetting } from "./../../utils/util";
+import { TxtFileServices } from "./../../utils/txtFileServices";
+import { SubFile, File } from "./../../utils/txtFileTypes";
 
-interface SubFile {
-  chapterName: string; // 章节名称
-  fileName: string; // 文件名称
+interface IIntroPage {
+  [key: string]: any;
 }
-Page({
+
+interface IIntroData {
+  loadingHidden: boolean;
+  percent: number;
+  file: File;
+  // 文件或目录 路径必须使用 wx.env.USER_DATA_PATH 即时获取
+  // 存入data就会有问题
+  readInfoField: string;
+  curChapter: number;
+  // 多少章一个缓存文件
+  num: number;
+  subFile: SubFile[];
+  idx: number;
+  chapterArr: string[][];
+  scrollTop: number;
+  listScrollTop: number;
+  theme: {
+    text_bgc: string;
+    text_font: string;
+    list_bgc: string;
+    list_border: string;
+    list_font: string;
+    list_cur_font: string;
+    list_next_font: string;
+  }[];
+  settingFlag: boolean;
+  settingDetailFlag: boolean;
+  fontSizeMin: number;
+  fontSizeMax: number;
+  curTheme: number;
+  fontSize: number;
+  night: boolean;
+  lineHeights: number[];
+  lineHeightLevel: number;
+  txtFileServ: TxtFileServices | null;
+}
+
+Page<IIntroData, IIntroPage>({
   /**
    * 页面的初始数据
    */
@@ -16,44 +54,32 @@ Page({
     percent: 0,
     // 源文件信息
     file: {
-      name: '',
+      name: "",
       size: 1,
-      path: '',
+      path: "",
       time: 111,
-      type: '',
+      type: "",
     },
-    // 换行分隔符
-    separator: '\n',
-    divider: 'separatorDivider',
-    // 文件或目录 路径必须使用 wx.env.USER_DATA_PATH 获取
-    // 存入data就会有问题
-    // 缓存文件目录名称
-    fileDir: '/file_***',
-    // 缓存文件名称前缀
-    splitPre: '/split_***',
-    // 缓存文件路径 storage存储字段
-    fileInfoField: '/split_***',
-    // 当前章节信息 storage存储字段
-    readInfoField: '/split_***',
+    readInfoField: "/split_***",
     // 当前章节
     curChapter: 0,
     // 多少章一个缓存文件
     num: 10,
     subFile: [],
     idx: 0,
-    chapterArr: [['']],
+    chapterArr: [[""]],
     scrollTop: 0,
     listScrollTop: 0,
     theme: [
       {
-        text_bgc: '#D4E3D0',
-        text_font: '#0D1C09',
-        list_bgc: '#DDEBDA',
-        list_border: '#DDEBDA',
-        list_font: '#2F442A',
-        list_cur_font: '#E29C3A',
-        list_next_font: '#A4BBA1',
-      }
+        text_bgc: "#D4E3D0",
+        text_font: "#0D1C09",
+        list_bgc: "#DDEBDA",
+        list_border: "#DDEBDA",
+        list_font: "#2F442A",
+        list_cur_font: "#E29C3A",
+        list_next_font: "#A4BBA1",
+      },
     ],
     settingFlag: false,
     settingDetailFlag: false,
@@ -64,29 +90,38 @@ Page({
     night: false,
     lineHeights: [1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6],
     lineHeightLevel: 3,
+    txtFileServ: null,
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(params) {
     console.log(params);
     const eventChannel = this.getOpenerEventChannel();
-    eventChannel.on('bookItem', (data) => {
+    eventChannel.on("bookItem", (data) => {
       console.log(data);
       // 查询本地 getStorageSync split + time
       // 以文件time做标识
       const { time, size } = data;
       const fileDir = `/file_${time}_${size}`;
       const splitPre = `/split_${time}_${size}_`;
-      const fileInfoField = splitPre + 'fileInfo';
-      const readInfoField = splitPre + 'readInfo';
+      const fileInfoField = splitPre + "fileInfo";
+      const readInfoField = splitPre + "readInfo";
       const setting = getSetting();
-      this.setData({
+      const txtFileServ = new TxtFileServices({
         fileDir,
         splitPre,
         fileInfoField,
         readInfoField,
+        updateProgress: (percent: number) => {
+          this.setData({ percent });
+        },
+      });
+      this.setData({
+        splitPre,
+        fileInfoField,
+        readInfoField,
+        txtFileServ,
         file: data,
         ...setting,
       });
@@ -102,7 +137,7 @@ Page({
       }
       // 存储章节分段文件路径
       // 当前所读章节 路径
-    })
+    });
   },
   /**
    * 文件解析
@@ -110,104 +145,24 @@ Page({
   fileResolution() {
     const { path } = this.data.file;
     this.setData({
-      loadingHidden: false
+      loadingHidden: false,
     });
-    const fs = wx.getFileSystemManager();
-    fs.readFile({
-      filePath: path,
-      encoding: 'utf-8',
-      success: res => {
-        // 创建缓存文件父级目录
-        this.createParentDir(fs);
-        // 创建缓存分块的子文件
-        const subFile = this.createChildFiles(fs, res.data + '');
-        const curChapter = 0;
-        console.log('setStorageSync', subFile);
+    this.data.txtFileServ?.fileResolution(path).then(
+      (subFile) => {
         this.setData({
+          subFile,
           loadingHidden: true,
-          curChapter,
-          subFile: subFile as any,
+          curChapter: 0,
         });
-        // storage存储子文件路径信息 当前章节
-        wx.setStorageSync(this.data.fileInfoField, JSON.stringify(subFile));
         this.updateCurChapter();
         this.readChildFile();
       },
-      fail: console.error
-    })
-  },
-  /**
-   * 创建缓存文件父级目录
-   */
-  createParentDir(fs: WechatMiniprogram.FileSystemManager) {
-    try {
-      fs.accessSync(`${wx.env.USER_DATA_PATH}${this.data.fileDir}`);
-    } catch (e) {
-      fs.mkdirSync(wx.env.USER_DATA_PATH + this.data.fileDir, false);
-    }
-  },
-  /**
-   * 创建缓存分块的子文件 -- 缓存文件  -- 多章一个缓存文件
-   */
-  createChildFiles(fs: WechatMiniprogram.FileSystemManager, data: string) {
-    const bookArr = data.split(this.data.separator).filter(i => {
-      return !!(String.prototype.trim.call(i))
-    });
-    const len = bookArr.length;
-    const subFile: SubFile[] = [];
-    const chinaReg = /[\u4E00-\u9FA5]+/;
-    let fileName = this.data.splitPre + '1.txt';
-    let subfileContent: string[] = [];
-    let chapterName = "简介"; // 章节名称
-    // 初始化新文件
-    fs.writeFileSync(wx.env.USER_DATA_PATH + this.data.fileDir + fileName, '', 'utf8');
-    bookArr.forEach((item, index) => {
-      const itemStr = item.trimStart();
-      if (item === itemStr && chinaReg.test(item)) {
-        if (subfileContent.length > 0) {
-          // console.log(fileName);
-          console.log(subfileContent);
-          // 写入上一章节的内容
-          fs.appendFileSync(wx.env.USER_DATA_PATH + this.data.fileDir + fileName, subfileContent.join(this.data.separator), 'utf8');
-          // 开始新的一章 重新开始收集内容
-          // 收集了有效内容才开始新的章节
-          if (subfileContent.some(i => chinaReg.test(i))) {
-            subFile.push({
-              chapterName,
-              fileName,
-            });
-            subfileContent = [];
-          }
-          // 更新解析百分比
-          const percent = parseInt(index / len * 100 + '');
-          this.setData({ percent });
-        }
-        // 添加章节分隔符  和章节名
-        subfileContent.push(this.data.divider);
-        subfileContent.push(item + this.data.separator);
-        chapterName = String.prototype.trim.call(item);
-        // 满10(num)章  更新文件路径 初始化新文件
-        const chapter = subFile.length + 1;
-        if (chapter % this.data.num === 0) {
-          fileName = `${this.data.splitPre}${chapter}.txt`;
-          // 初始化新文件
-          fs.writeFileSync(wx.env.USER_DATA_PATH + this.data.fileDir + fileName, '', 'utf8');
-        }
-      } else {
-        subfileContent.push(item);
+      () => {
+        this.setData({
+          loadingHidden: true,
+        });
       }
-    });
-    console.log(fileName);
-    console.log(subfileContent);
-    // 写入最后一章的内容
-    if (subfileContent.length > 0) {
-      fs.appendFileSync(wx.env.USER_DATA_PATH + this.data.fileDir + fileName, subfileContent.join(this.data.separator), 'utf8');
-      subFile.push({
-        chapterName,
-        fileName,
-      });
-    }
-    return subFile
+    );
   },
   /**
    * 读取章节内容
@@ -215,32 +170,21 @@ Page({
   readChildFile() {
     console.log(this.data.curChapter);
     // console.log(this.data.subFile);
-    const fileName = (this.data.subFile[this.data.curChapter] as any)?.fileName;
-    const fs = wx.getFileSystemManager();
-    fs.readFile({
-      filePath: wx.env.USER_DATA_PATH + this.data.fileDir + fileName,
-      encoding: 'utf-8',
-      success: res => {
-        const data = res.data + '';
-        const chapterArr = data.split(this.data.divider).filter(i => {
-          const chinaReg = /[\u4E00-\u9FA5]+/;
-          return chinaReg.test(i);
-        }).map(i => {
-          return i.split(this.data.separator);
-        });
-        const idx = this.data.curChapter % this.data.num;
-        // console.log(chapterArr);
-        this.setData({
-          chapterArr,
-          idx,
-        });
-        wx.pageScrollTo({
-          scrollTop: 0,
-          duration: 300
-        });
-      },
-      fail: console.error
-    })
+    this.data.txtFileServ
+      ?.readChildFile(this.data.subFile, this.data.curChapter)
+      .then(
+        (res) => {
+          console.log(res);
+          this.setData(res);
+          wx.pageScrollTo({
+            scrollTop: 0,
+            duration: 300,
+          });
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
   },
   /**
    * 上一章
@@ -261,7 +205,7 @@ Page({
         curChapter: this.data.curChapter - 1,
         scrollTop: 0,
       });
-    };
+    }
 
     this.updateCurChapter();
   },
@@ -285,7 +229,7 @@ Page({
         curChapter: this.data.curChapter + 1,
         scrollTop: 0,
       });
-    };
+    }
 
     this.updateCurChapter();
   },
@@ -311,7 +255,7 @@ Page({
   handleListToggle(e: any) {
     const status = e.currentTarget.dataset.status;
     this.listToggle(status);
-    if (status === 'open') {
+    if (status === "open") {
       this.settingToggle(true);
     }
   },
@@ -322,28 +266,28 @@ Page({
     const animation = wx.createAnimation({
       duration: 100,
       timingFunction: "linear",
-      delay: 0
+      delay: 0,
     });
     animation.translateX(-150).step();
     this.setData({
-      listAnimation: animation.export()
-    })
+      listAnimation: animation.export(),
+    });
     setTimeout(() => {
-      animation.translateX(0).step()
+      animation.translateX(0).step();
       this.setData({
-        listAnimation: animation
-      })
+        listAnimation: animation,
+      });
       if (status == "close") {
         this.setData({
-          listFlag: false
-        })
+          listFlag: false,
+        });
       }
-    }, 100)
+    }, 100);
     if (status == "open") {
       this.setData({
         listFlag: true,
         listScrollTop: this.data.curChapter * 40,
-      })
+      });
     }
   },
   /**
@@ -352,7 +296,7 @@ Page({
   handleJumpChapter(e: any) {
     const chapter = e.currentTarget.dataset.chapter;
     this.jumpChapter(chapter);
-    this.listToggle('close');
+    this.listToggle("close");
   },
   /**
    * 设置显隐click
@@ -367,7 +311,7 @@ Page({
     const animation = wx.createAnimation({
       duration: 100,
       timingFunction: "linear",
-      delay: 0
+      delay: 0,
     });
     animation.translateY(150).step();
     this.setData({
@@ -376,19 +320,19 @@ Page({
     if (!settingFlag) {
       this.setData({
         settingFlag: true,
-      })
+      });
     }
     setTimeout(() => {
       animation.translateY(0).step();
       this.setData({
         settingAnimation: animation,
-      })
+      });
       if (settingFlag) {
         this.setData({
           settingFlag: false,
-        })
+        });
       }
-    }, 100)
+    }, 100);
   },
   // 黑夜白天切换
   nightToggle() {
@@ -446,7 +390,7 @@ Page({
       night: this.data.night,
       fontSize: this.data.fontSize,
       lineHeightLevel: this.data.lineHeightLevel,
-    })
+    });
   },
   // 详细设置
   settingDetailToggle() {
@@ -454,4 +398,4 @@ Page({
       settingDetailFlag: !this.data.settingDetailFlag,
     });
   },
-})
+});
