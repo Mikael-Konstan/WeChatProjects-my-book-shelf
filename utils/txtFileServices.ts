@@ -1,5 +1,5 @@
 import { SubFile, FileInfo } from "./txtFileTypes";
-import { txtSeparator, num } from './config';
+import { txtSeparator, num, newChapterReg } from './config';
 
 export class TxtFileServices {
   // 缓存文件目录名称
@@ -10,6 +10,7 @@ export class TxtFileServices {
   fileInfoField = "/split_***";
   fs: WechatMiniprogram.FileSystemManager;
   updateProgress: (percent: number) => void;
+  regIdx: number = 0;
   constructor(fileInfo: FileInfo) {
     this.fileDir = fileInfo.fileDir;
     this.splitPre = fileInfo.splitPre;
@@ -56,12 +57,20 @@ export class TxtFileServices {
    */
   createChildFiles(data: string) {
     const bookArr: string[] = [];
+    const regIdxs: number[] = new Array(newChapterReg.length).fill(0);
     data.split(txtSeparator).forEach((i) => {
       const item = String.prototype.trim.call(i);
       if (!!item) {
         bookArr.push(item);
+        const ids = newChapterReg.findIndex(i => i.test(item));
+        regIdxs[ids]++;
       }
     });
+    this.regIdx = regIdxs.reduce((pre, cur) => {
+      if (cur > pre) return cur;
+      return pre
+    });
+    console.log(this.regIdx);
     const len = bookArr.length;
     const subFile: SubFile[] = [];
     let chapter = 1;
@@ -143,9 +152,7 @@ export class TxtFileServices {
    * 是否为新章节
    */
   isNewChapter(content: string) {
-    // const chinaReg = /[\u4E00-\u9FA5]+/; // 校验中文
-    const reg = /[第]{1}[0-9零一二三四五六七八九十百千]+[章]{1}/g;
-    return reg.test(content);
+    return newChapterReg[this.regIdx].test(content);
   }
   /**
    * 读取章节内容

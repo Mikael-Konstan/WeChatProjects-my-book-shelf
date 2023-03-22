@@ -31,10 +31,18 @@ const txtSeparator = "\n";
 // 多少章一个缓存文件
 const num = 24;
 
+// const chinaReg = /[\u4E00-\u9FA5]+/; // 校验中文
+// 校验是为新章节的正则
+const newChapterReg = [
+    /[第]{1}[0-9]+[章]{1}/g,
+    /[第]{1}[零一二三四五六七八九十百千]+[章]{1}/g,
+];
+
 export {
     defaultSetting,
     colorTheme,
     lineHeights,
     txtSeparator,
     num,
+    newChapterReg,
 }
