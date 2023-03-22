@@ -50,7 +50,7 @@
       </view>
       <!-- 主题 背景色 -->
       <view class="setting-more-background">
-        <view class="setting-more-background-item" wx:for="{{theme}}" style="background-color: {{item.text_bgc}};border-color: {{index === curTheme ? '' : item.list_border}};"></view>
+        <view class="setting-more-background-item" wx:for="{{theme}}" wx:key="index" style="background-color: {{item.text_bgc}};border-color: {{index === curTheme ? '' : item.list_border}};" data-curtheme="{{index}}" catchtap="handleThemeColor"></view>
       </view>
     </view>
     <!-- 设置tab -->

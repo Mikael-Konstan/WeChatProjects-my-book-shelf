@@ -361,6 +361,7 @@ Page<IIntroDetailData, IIntroPage>({
   fontSizeChange(e: any) {
     const { value } = e.detail;
     this.setData({ fontSize: value });
+    this.updateSetting();
   },
   // 字体大小
   handleFontSize(e: any) {
@@ -382,6 +383,7 @@ Page<IIntroDetailData, IIntroPage>({
   lineHeightChange(e: any) {
     const { value } = e.detail;
     this.setData({ lineHeightLevel: value });
+    this.updateSetting();
   },
   // 行间距等级
   handleLineHeight(e: any) {
@@ -397,6 +399,12 @@ Page<IIntroDetailData, IIntroPage>({
       }
     }
     this.setData({ lineHeightLevel });
+    this.updateSetting();
+  },
+  // 主题颜色
+  handleThemeColor(e: any) {
+    const curTheme = e.currentTarget.dataset.curtheme;
+    this.setData({ curTheme });
     this.updateSetting();
   },
   // 更新设置
