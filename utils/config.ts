@@ -12,6 +12,15 @@ const defaultSetting: Setting = {
 // 颜色主题
 const colorTheme: ColorTheme[] = [
     {
+        text_bgc: "#E3D9C0",
+        text_font: "#3C2911",
+        list_bgc: "#EDE2C4",
+        list_border: "#DDEBDA",
+        list_font: "#67573E",
+        list_cur_font: "#E29C3A",
+        list_next_font: "#A4BBA1",
+    },
+    {
         text_bgc: "#D4E3D0",
         text_font: "#0D1C09",
         list_bgc: "#DDEBDA",
