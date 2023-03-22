@@ -48,4 +48,5 @@ export interface IIntroDetailData {
     lineHeights: number[];
     txtFileServ: TxtFileServices | null;
     readInfoServ: ReadInfoServices | null;
+    timer: number;
 }

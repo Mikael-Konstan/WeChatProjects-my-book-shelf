@@ -1,7 +1,7 @@
 <!--pages/detail/detail.wxml-->
 <view class="detail">
   <!-- 正文滚动 -->
-  <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" class="content-container" style="background-color: {{theme[curTheme].text_bgc}};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
+  <scroll-view scroll-y="true" bindscroll="handleOnScroll" scroll-top="{{scrollTop}}" class="content-container" style="background-color: {{theme[curTheme].text_bgc}};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
     <!-- 正文 -->
     <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index" style="text-indent: {{fontSize * 2}}rpx;">{{item}}</view>
     <!-- 章节切换按钮 -->

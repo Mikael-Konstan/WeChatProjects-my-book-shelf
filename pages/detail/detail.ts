@@ -51,11 +51,13 @@ Page<IIntroDetailData, IIntroPage>({
     lineHeights,
     txtFileServ: null,
     readInfoServ: null,
+    timer: 0,
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(params) {
+    console.log('onLoad');
     console.log(params);
     const eventChannel = this.getOpenerEventChannel();
     eventChannel.on("bookItem", (data) => {
@@ -88,6 +90,11 @@ Page<IIntroDetailData, IIntroPage>({
         ...readInfo,
         ...setting,
       });
+      setTimeout(() => {
+        this.setData({
+          scrollTop: readInfo.scrollTop,
+        });
+      }, 300);
       const subFileStr = wx.getStorageSync(fileInfoField);
       if (!!subFileStr) {
         const subFile = JSON.parse(subFileStr);
@@ -100,6 +107,13 @@ Page<IIntroDetailData, IIntroPage>({
       // 存储章节分段文件路径
       // 当前所读章节 路径
     });
+  },
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload() {
+    console.log('onUnload');
+    this.data.readInfoServ?.setReadInfo({ scrollTop: this.data.scrollTop });
   },
   /**
    * 文件解析
@@ -147,6 +161,22 @@ Page<IIntroDetailData, IIntroPage>({
           console.error(err);
         }
       );
+  },
+  /**
+   * 监听页面滚动
+   * @param e any
+   */
+  handleOnScroll(e: any) {
+    // console.log('handleOnScroll', e);
+    clearTimeout(this.data.timer);
+    const timer = setTimeout(() => {
+      this.setData({
+        scrollTop: e.detail.scrollTop,
+      });
+    }, 600);
+    this.setData({
+      timer,
+    });
   },
   /**
    * 上一章
