@@ -20,6 +20,15 @@ const colorTheme: ColorTheme[] = [
         list_cur_font: "#E29C3A",
         list_next_font: "#A4BBA1",
     },
+    {
+        text_bgc: "#242424",
+        text_font: "#888D90",
+        list_bgc: "#2C2E2D",
+        list_border: "#2C2E2D",
+        list_font: "#919B9C",
+        list_cur_font: "#E29C3A",
+        list_next_font: "#5A6465",
+    },
 ]
 
 // 行高倍数
