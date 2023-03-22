@@ -243,6 +243,9 @@ Page<IIntroDetailData, IIntroPage>({
     this.data.readInfoServ?.setReadInfo({
       curChapter: this.data.curChapter
     });
+    wx.setNavigationBarTitle({
+      title: this.data.subFile[this.data.curChapter].chapterName,
+    });
   },
   /**
    * 目录列表显隐click

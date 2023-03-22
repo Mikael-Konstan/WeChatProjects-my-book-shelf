@@ -12,6 +12,12 @@
       padding: 0 36rpx;
     }
 
+    .content-item:first-child {
+      text-indent: unset !important;
+      text-align: center;
+      padding-bottom: 48rpx;
+    }
+
     .content-btn {
       display: flex;
       justify-content: space-around;
@@ -50,10 +56,12 @@
         line-height: 60rpx;
         text-align: center;
       }
+
       .scrollToBottom {
         top: unset;
         bottom: 0;
       }
+
       .list-container {
         height: 100%;
 
