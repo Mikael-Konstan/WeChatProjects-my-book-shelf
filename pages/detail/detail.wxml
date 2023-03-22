@@ -3,7 +3,7 @@
   <!-- 正文滚动 -->
   <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" class="content-container" style="background-color: {{theme[curTheme].text_bgc}};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
     <!-- 正文 -->
-    <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index">{{item}}</view>
+    <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index" style="text-indent: {{fontSize * 2}}rpx;">{{item}}</view>
     <!-- 章节切换按钮 -->
     <view class="content-btn">
       <button class="mini-btn" type="default" size="mini" catchtap="previousChapter">上一章</button>

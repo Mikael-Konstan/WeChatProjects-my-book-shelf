@@ -15,8 +15,6 @@ interface IIntroData {
   // 存入data就会有问题
   readInfoField: string;
   curChapter: number;
-  // 多少章一个缓存文件
-  num: number;
   subFile: SubFile[];
   idx: number;
   chapterArr: string[][];
@@ -63,8 +61,6 @@ Page<IIntroData, IIntroPage>({
     readInfoField: "/split_***",
     // 当前章节
     curChapter: 0,
-    // 多少章一个缓存文件
-    num: 10,
     subFile: [],
     idx: 0,
     chapterArr: [[]],
@@ -86,7 +82,7 @@ Page<IIntroData, IIntroPage>({
     fontSizeMin: 16,
     fontSizeMax: 72,
     curTheme: 0,
-    fontSize: 32,
+    fontSize: 48,
     night: false,
     lineHeights: [1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6],
     lineHeightLevel: 3,

@@ -1,7 +1,7 @@
 import { SubFile, FileInfo } from "./txtFileTypes";
 const txtSeparator = "\n";
 // 多少章一个缓存文件
-const num = 10;
+const num = 24;
 
 export class TxtFileServices {
   // 缓存文件目录名称
@@ -57,8 +57,12 @@ export class TxtFileServices {
    * @return SubFile[] 章节名与子文件路径对照表
    */
   createChildFiles(data: string) {
-    const bookArr = data.split(txtSeparator).filter((i) => {
-      return !!String.prototype.trim.call(i);
+    const bookArr: string[] = [];
+    data.split(txtSeparator).forEach((i) => {
+      const item = String.prototype.trim.call(i);
+      if (!!item) {
+        bookArr.push(item);
+      }
     });
     const len = bookArr.length;
     const subFile: SubFile[] = [];
