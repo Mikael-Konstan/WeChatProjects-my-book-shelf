@@ -1,7 +1,5 @@
 import { SubFile, FileInfo } from "./txtFileTypes";
-const txtSeparator = "\n";
-// 多少章一个缓存文件
-const num = 24;
+import { txtSeparator, num } from './config';
 
 export class TxtFileServices {
   // 缓存文件目录名称

@@ -1,47 +1,16 @@
 // pages/detail/detail.ts
-import { getSetting, saveSetting } from "./../../utils/util";
 import { TxtFileServices } from "./../../utils/txtFileServices";
-import { SubFile, File } from "./../../utils/txtFileTypes";
+import SettingServ from './../../utils/settingServices';
+import {
+  colorTheme,
+  lineHeights,
+} from './../../utils/config';
+import {
+  IIntroPage,
+  IIntroDetailData,
+} from './../../utils/types';
 
-interface IIntroPage {
-  [key: string]: any;
-}
-
-interface IIntroData {
-  loadingHidden: boolean;
-  percent: number;
-  file: File;
-  // 文件或目录 路径必须使用 wx.env.USER_DATA_PATH 即时获取
-  // 存入data就会有问题
-  readInfoField: string;
-  curChapter: number;
-  subFile: SubFile[];
-  idx: number;
-  chapterArr: string[][];
-  scrollTop: number;
-  listScrollIntoView: string;
-  theme: {
-    text_bgc: string;
-    text_font: string;
-    list_bgc: string;
-    list_border: string;
-    list_font: string;
-    list_cur_font: string;
-    list_next_font: string;
-  }[];
-  settingFlag: boolean;
-  settingDetailFlag: boolean;
-  fontSizeMin: number;
-  fontSizeMax: number;
-  curTheme: number;
-  fontSize: number;
-  night: boolean;
-  lineHeights: number[];
-  lineHeightLevel: number;
-  txtFileServ: TxtFileServices | null;
-}
-
-Page<IIntroData, IIntroPage>({
+Page<IIntroDetailData, IIntroPage>({
   /**
    * 页面的初始数据
    */
@@ -66,26 +35,20 @@ Page<IIntroData, IIntroPage>({
     chapterArr: [[]],
     scrollTop: 0,
     listScrollIntoView: '',
-    theme: [
-      {
-        text_bgc: "#D4E3D0",
-        text_font: "#0D1C09",
-        list_bgc: "#DDEBDA",
-        list_border: "#DDEBDA",
-        list_font: "#2F442A",
-        list_cur_font: "#E29C3A",
-        list_next_font: "#A4BBA1",
-      },
-    ],
+    theme: colorTheme,
     settingFlag: false,
     settingDetailFlag: false,
     fontSizeMin: 16,
     fontSizeMax: 72,
+    // 当前主题
     curTheme: 0,
+    // 字体大小
     fontSize: 48,
+    // 黑夜模式
     night: false,
-    lineHeights: [1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6],
+    // 行间距等级
     lineHeightLevel: 3,
+    lineHeights,
     txtFileServ: null,
   },
   /**
@@ -103,7 +66,7 @@ Page<IIntroData, IIntroPage>({
       const splitPre = `/split_${time}_${size}_`;
       const fileInfoField = splitPre + "fileInfo";
       const readInfoField = splitPre + "readInfo";
-      const setting = getSetting();
+      const setting = SettingServ.getSetting();
       const txtFileServ = new TxtFileServices({
         fileDir,
         splitPre,
@@ -124,7 +87,7 @@ Page<IIntroData, IIntroPage>({
         const subFile = JSON.parse(subFileStr);
         // console.log(curChapter, subFileStr);
         this.setData({ subFile });
-        this.jumpChapter(curChapter);
+        this.jumpChapter(curChapter || 0);
       } else {
         this.fileResolution();
       }
@@ -397,7 +360,7 @@ Page<IIntroData, IIntroPage>({
   },
   // 更新设置
   updateSetting() {
-    saveSetting({
+    SettingServ.setSetting({
       curTheme: this.data.curTheme,
       night: this.data.night,
       fontSize: this.data.fontSize,
