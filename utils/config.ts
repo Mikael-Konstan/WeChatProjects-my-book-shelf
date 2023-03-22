@@ -38,6 +38,12 @@ const newChapterReg = [
     /[第]{1}[零一二三四五六七八九十百千]+[章]{1}/g,
 ];
 
+const defaultReadInfo = {
+    curChapter: 0,
+    scrollTop: 0,
+    regIdx: 0,
+}
+
 export {
     defaultSetting,
     colorTheme,
@@ -45,4 +51,5 @@ export {
     txtSeparator,
     num,
     newChapterReg,
+    defaultReadInfo,
 }

@@ -1,4 +1,5 @@
 import { TxtFileServices } from "./txtFileServices";
+import { ReadInfoServices } from "./readInfoServices";
 import { SubFile, File } from "./txtFileTypes";
 
 export interface ColorTheme {
@@ -21,7 +22,6 @@ export interface IIntroDetailData {
     file: File;
     // 文件或目录 路径必须使用 wx.env.USER_DATA_PATH 即时获取
     // 存入data就会有问题
-    readInfoField: string;
     curChapter: number;
     subFile: SubFile[];
     idx: number;
@@ -47,4 +47,5 @@ export interface IIntroDetailData {
     lineHeightLevel: number;
     lineHeights: number[];
     txtFileServ: TxtFileServices | null;
+    readInfoServ: ReadInfoServices | null;
 }

@@ -8,14 +8,17 @@ export class TxtFileServices {
   splitPre = "/split_***";
   // 缓存文件路径 storage存储字段
   fileInfoField = "/split_***";
+  regIdx = 0;
   fs: WechatMiniprogram.FileSystemManager;
   updateProgress: (percent: number) => void;
-  regIdx: number = 0;
+  updateRegIdx: (regIdx: number) => void;
   constructor(fileInfo: FileInfo) {
     this.fileDir = fileInfo.fileDir;
     this.splitPre = fileInfo.splitPre;
     this.fileInfoField = fileInfo.fileInfoField;
+    this.regIdx = fileInfo.regIdx;
     this.updateProgress = fileInfo.updateProgress;
+    this.updateRegIdx = fileInfo.updateRegIdx;
     this.fs = wx.getFileSystemManager();
   }
 
@@ -62,15 +65,21 @@ export class TxtFileServices {
       const item = String.prototype.trim.call(i);
       if (!!item) {
         bookArr.push(item);
-        const ids = newChapterReg.findIndex(i => i.test(item));
-        regIdxs[ids]++;
+        const idx = newChapterReg.findIndex(i => i.test(item));
+        if (idx > -1) {
+          regIdxs[idx]++;
+        }
       }
     });
-    this.regIdx = regIdxs.reduce((pre, cur) => {
-      if (cur > pre) return cur;
-      return pre
+    let maxSum = regIdxs[0];
+    regIdxs.forEach((sum, index) => {
+      if (sum > maxSum) {
+        maxSum = sum;
+        this.regIdx = index;
+      };
     });
     console.log(this.regIdx);
+    this.updateRegIdx(this.regIdx);
     const len = bookArr.length;
     const subFile: SubFile[] = [];
     let chapter = 1;
@@ -86,8 +95,8 @@ export class TxtFileServices {
     this.initChildFile(fileName);
     bookArr.forEach((item, index) => {
       if (this.isNewChapter(item)) {
-        console.log(fileName);
-        console.log(subfileContent);
+        // console.log(fileName);
+        // console.log(subfileContent);
         // 子文件里写入上一章节的内容
         this.fs.appendFileSync(
           wx.env.USER_DATA_PATH + this.fileDir + fileName,

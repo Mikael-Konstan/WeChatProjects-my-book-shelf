@@ -1,6 +1,7 @@
 // pages/detail/detail.ts
 import { TxtFileServices } from "./../../utils/txtFileServices";
 import SettingServ from './../../utils/settingServices';
+import { ReadInfoServices } from './../../utils/readInfoServices';
 import {
   colorTheme,
   lineHeights,
@@ -27,7 +28,6 @@ Page<IIntroDetailData, IIntroPage>({
       time: 111,
       type: "",
     },
-    readInfoField: "/split_***",
     // 当前章节
     curChapter: 0,
     subFile: [],
@@ -50,6 +50,7 @@ Page<IIntroDetailData, IIntroPage>({
     lineHeightLevel: 3,
     lineHeights,
     txtFileServ: null,
+    readInfoServ: null,
   },
   /**
    * 生命周期函数--监听页面加载
@@ -65,29 +66,34 @@ Page<IIntroDetailData, IIntroPage>({
       const fileDir = `/file_${time}_${size}`;
       const splitPre = `/split_${time}_${size}_`;
       const fileInfoField = splitPre + "fileInfo";
-      const readInfoField = splitPre + "readInfo";
+      const readInfoServ = new ReadInfoServices(splitPre + "readInfo");
+      const readInfo = readInfoServ.getReadInfo();
       const setting = SettingServ.getSetting();
       const txtFileServ = new TxtFileServices({
         fileDir,
         splitPre,
         fileInfoField,
+        regIdx: readInfo.regIdx,
         updateProgress: (percent: number) => {
           this.setData({ percent });
         },
+        updateRegIdx: (regIdx: number) => {
+          readInfoServ.setReadInfo({ regIdx });
+        },
       });
       this.setData({
-        readInfoField,
         txtFileServ,
+        readInfoServ,
         file: data,
+        ...readInfo,
         ...setting,
       });
-      const curChapter = wx.getStorageSync(readInfoField);
       const subFileStr = wx.getStorageSync(fileInfoField);
       if (!!subFileStr) {
         const subFile = JSON.parse(subFileStr);
         // console.log(curChapter, subFileStr);
         this.setData({ subFile });
-        this.jumpChapter(curChapter || 0);
+        this.jumpChapter(readInfo.curChapter);
       } else {
         this.fileResolution();
       }
@@ -124,8 +130,8 @@ Page<IIntroDetailData, IIntroPage>({
    * 读取章节内容
    */
   readChildFile() {
-    console.log(this.data.curChapter);
-    console.log(this.data.subFile);
+    // console.log(this.data.curChapter);
+    // console.log(this.data.subFile);
     this.data.txtFileServ
       ?.readChildFile(this.data.subFile, this.data.curChapter)
       .then(
@@ -204,7 +210,9 @@ Page<IIntroDetailData, IIntroPage>({
    * 更新当前所读章节数
    */
   updateCurChapter() {
-    wx.setStorageSync(this.data.readInfoField, this.data.curChapter);
+    this.data.readInfoServ?.setReadInfo({
+      curChapter: this.data.curChapter
+    });
   },
   /**
    * 目录列表显隐click
