@@ -1,4 +1,13 @@
 <!--pages/detail/detail.wxml-->
+<page-meta>
+  <navigation-bar
+    loading="{{false}}"
+    front-color="{{theme[curTheme].text_font}}"
+    background-color="{{theme[curTheme].text_bgc}}"
+    color-animation-duration="600"
+    color-animation-timing-func="easeIn"
+  />
+</page-meta>
 <view class="detail">
   <!-- 正文滚动 -->
   <scroll-view scroll-y="true" bindscroll="handleOnScroll" scroll-top="{{scrollTop}}" class="content-container" style="background-color: {{theme[curTheme].text_bgc}};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">

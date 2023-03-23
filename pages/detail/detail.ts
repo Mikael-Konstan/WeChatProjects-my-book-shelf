@@ -90,11 +90,13 @@ Page<IIntroDetailData, IIntroPage>({
         ...readInfo,
         ...setting,
       });
+
       setTimeout(() => {
         this.setData({
           scrollTop: readInfo.scrollTop,
         });
       }, 300);
+  
       const subFileStr = wx.getStorageSync(fileInfoField);
       if (!!subFileStr) {
         const subFile = JSON.parse(subFileStr);
@@ -104,8 +106,6 @@ Page<IIntroDetailData, IIntroPage>({
       } else {
         this.fileResolution();
       }
-      // 存储章节分段文件路径
-      // 当前所读章节 路径
     });
   },
   /**
