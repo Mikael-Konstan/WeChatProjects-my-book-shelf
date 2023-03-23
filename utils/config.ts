@@ -7,7 +7,7 @@ const defaultSetting: Setting = {
     fontSize: 48,
     night: false,
     lineHeightLevel: 3,
-}
+};
 
 // 颜色主题
 const colorTheme: ColorTheme[] = [
@@ -29,16 +29,18 @@ const colorTheme: ColorTheme[] = [
         list_cur_font: "#E29C3A",
         list_next_font: "#A4BBA1",
     },
-    {
-        text_bgc: "#242424",
-        text_font: "#888D90",
-        list_bgc: "#2C2E2D",
-        list_border: "#2C2E2D",
-        list_font: "#919B9C",
-        list_cur_font: "#E29C3A",
-        list_next_font: "#5A6465",
-    },
-]
+];
+
+// 黑夜模式
+const dark = {
+    text_bgc: "#242424",
+    text_font: "#888D90",
+    list_bgc: "#2C2E2D",
+    list_border: "#2C2E2D",
+    list_font: "#919B9C",
+    list_cur_font: "#E29C3A",
+    list_next_font: "#5A6465",
+};
 
 // 行高倍数
 const lineHeights = [1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6];
@@ -60,11 +62,12 @@ const defaultReadInfo = {
     curChapter: 0,
     scrollTop: 0,
     regIdx: 0,
-}
+};
 
 export {
     defaultSetting,
     colorTheme,
+    dark,
     lineHeights,
     txtSeparator,
     num,

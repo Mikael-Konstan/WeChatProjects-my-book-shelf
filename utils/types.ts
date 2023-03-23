@@ -28,6 +28,16 @@ export interface IIntroBookShelfData {
   tempFiles: File[]
 }
 
+export interface ColorThemeItem {
+    text_bgc: string;
+    text_font: string;
+    list_bgc: string;
+    list_border: string;
+    list_font: string;
+    list_cur_font: string;
+    list_next_font: string;
+}
+
 export interface IIntroDetailData {
     loadingHidden: boolean;
     percent: number;
@@ -40,15 +50,8 @@ export interface IIntroDetailData {
     chapterArr: string[][];
     scrollTop: number;
     listScrollIntoView: string;
-    theme: {
-        text_bgc: string;
-        text_font: string;
-        list_bgc: string;
-        list_border: string;
-        list_font: string;
-        list_cur_font: string;
-        list_next_font: string;
-    }[];
+    theme: ColorThemeItem[];
+    dark: ColorThemeItem;
     settingFlag: boolean;
     settingDetailFlag: boolean;
     fontSizeMin: number;

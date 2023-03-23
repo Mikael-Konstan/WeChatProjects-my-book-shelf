@@ -4,6 +4,7 @@ import SettingServ from './../../utils/settingServices';
 import { ReadInfoServices } from './../../utils/readInfoServices';
 import {
   colorTheme,
+  dark,
   lineHeights,
 } from './../../utils/config';
 import {
@@ -36,6 +37,7 @@ Page<IIntroDetailData, IIntroPage>({
     scrollTop: 0,
     listScrollIntoView: '',
     theme: colorTheme,
+    dark,
     settingFlag: false,
     settingDetailFlag: false,
     fontSizeMin: 16,
