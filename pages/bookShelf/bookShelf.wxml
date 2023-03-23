@@ -1,5 +1,5 @@
 <!--bookShelf.wxml-->
-<view class="book-shelf">
+<view class="book-shelf" bindlongpress="bindLongPress">
   <image bindtap="chooseFile" src="/static/addBook.png" class="addBook"></image>
   <view class="book-container">
     <view class="book-item" wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index"

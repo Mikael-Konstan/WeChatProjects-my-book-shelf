@@ -11,11 +11,3 @@ export interface FileInfo {
   updateProgress: (percent: number) => void;
   updateRegIdx: (regIdx: number) => void;
 }
-
-export interface File {
-  name: string;
-  size: number;
-  path: string;
-  time: number;
-  type: string;
-}

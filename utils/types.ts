@@ -1,6 +1,14 @@
 import { TxtFileServices } from "./txtFileServices";
 import { ReadInfoServices } from "./readInfoServices";
-import { SubFile, File } from "./txtFileTypes";
+import { SubFile } from "./txtFileTypes";
+
+export interface File {
+  name: string;
+  size: number;
+  path: string;
+  time: number;
+  type: string;
+}
 
 export interface ColorTheme {
     text_bgc: string;
@@ -14,6 +22,10 @@ export interface ColorTheme {
 
 export interface IIntroPage {
     [key: string]: any;
+}
+
+export interface IIntroBookShelfData {
+  tempFiles: File[]
 }
 
 export interface IIntroDetailData {
