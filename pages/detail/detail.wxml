@@ -2,7 +2,7 @@
 <page-meta>
   <navigation-bar
     loading="{{false}}"
-    front-color="{{theme[curTheme].text_font}}"
+    front-color="{{night ? '#ffffff' : '#000000'}}"
     background-color="{{theme[curTheme].text_bgc}}"
     color-animation-duration="600"
     color-animation-timing-func="easeIn"
