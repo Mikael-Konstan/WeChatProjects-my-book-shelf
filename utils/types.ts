@@ -51,11 +51,11 @@ export interface IIntroDetailData {
     scrollTop: number;
     listScrollIntoView: string;
     theme: ColorThemeItem[];
-    dark: ColorThemeItem;
     settingFlag: boolean;
     settingDetailFlag: boolean;
     fontSizeMin: number;
     fontSizeMax: number;
+    oldTheme: number;
     curTheme: number;
     fontSize: number;
     night: boolean;

@@ -1,4 +1,5 @@
 export interface Setting {
+    oldTheme: number;
     curTheme: number;
     fontSize: number;
     night: boolean;
@@ -6,6 +7,7 @@ export interface Setting {
 }
 
 export interface SettingParams {
+    oldTheme?: number;
     curTheme?: number;
     fontSize?: number;
     night?: boolean;

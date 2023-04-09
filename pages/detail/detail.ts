@@ -4,7 +4,6 @@ import SettingServ from './../../utils/settingServices';
 import { ReadInfoServices } from './../../utils/readInfoServices';
 import {
   colorTheme,
-  dark,
   lineHeights,
 } from './../../utils/config';
 import {
@@ -37,13 +36,14 @@ Page<IIntroDetailData, IIntroPage>({
     scrollTop: 0,
     listScrollIntoView: '',
     theme: colorTheme,
-    dark,
     settingFlag: false,
     settingDetailFlag: false,
     fontSizeMin: 16,
     fontSizeMax: 72,
+    // 之前的主题
+    oldTheme: 1,
     // 当前主题
-    curTheme: 0,
+    curTheme: 1,
     // 字体大小
     fontSize: 48,
     // 黑夜模式
@@ -354,8 +354,10 @@ Page<IIntroDetailData, IIntroPage>({
   },
   // 黑夜白天切换
   nightToggle() {
+    const night = !this.data.night;
     this.setData({
-      night: !this.data.night,
+      night,
+      curTheme: night ? 0 : this.data.oldTheme,
     });
     this.updateSetting();
   },
@@ -406,12 +408,13 @@ Page<IIntroDetailData, IIntroPage>({
   // 主题颜色
   handleThemeColor(e: any) {
     const curTheme = e.currentTarget.dataset.curtheme;
-    this.setData({ curTheme });
+    this.setData({ curTheme, oldTheme: curTheme });
     this.updateSetting();
   },
   // 更新设置
   updateSetting() {
     SettingServ.setSetting({
+      oldTheme: this.data.oldTheme,
       curTheme: this.data.curTheme,
       night: this.data.night,
       fontSize: this.data.fontSize,

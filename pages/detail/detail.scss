@@ -135,6 +135,10 @@
           border-radius: 8rpx;
           margin-right: 48rpx;
         }
+
+        .setting-more-background-item:first-child {
+          display: none;
+        }
       }
 
       .setting-more-line-height {
