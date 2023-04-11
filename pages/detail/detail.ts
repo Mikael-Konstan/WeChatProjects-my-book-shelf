@@ -30,13 +30,20 @@ Page<IIntroDetailData, IIntroPage>({
     },
     // 当前章节
     curChapter: 0,
+    // 章节与所在缓存文件映射
     subFile: [],
     idx: 0,
+    // 目录信息
     chapterArr: [[]],
+    // 阅读进度百分比
+    readPercent: 0,
     scrollTop: 0,
+    // 目录 锚点滚动到当前章节
     listScrollIntoView: '',
     theme: colorTheme,
+    // 设置显隐flag
     settingFlag: false,
+    // 设置详情显隐flag
     settingDetailFlag: false,
     fontSizeMin: 16,
     fontSizeMax: 72,
@@ -51,16 +58,19 @@ Page<IIntroDetailData, IIntroPage>({
     // 行间距等级
     lineHeightLevel: 3,
     lineHeights,
+    // 文件服务
     txtFileServ: null,
+    // 文件阅读信息
     readInfoServ: null,
     timer: 0,
+    // 翻页时滚动距离
+    pageHeight: 0,
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(params) {
-    console.log('onLoad');
-    console.log(params);
+    console.log('onLoad', params);
     const eventChannel = this.getOpenerEventChannel();
     eventChannel.on("bookItem", (data) => {
       console.log(data);
@@ -105,9 +115,19 @@ Page<IIntroDetailData, IIntroPage>({
         // console.log(curChapter, subFileStr);
         this.setData({ subFile });
         this.jumpChapter(readInfo.curChapter);
+        this.updatePercent();
       } else {
         this.fileResolution();
       }
+
+      // 获取页面高度
+      const query = wx.createSelectorQuery()
+      query.select('#detail').boundingClientRect((res) => {
+        this.setData({
+          pageHeight: res.height - 20,
+        })
+      })
+      query.exec();
     });
   },
   /**
@@ -248,6 +268,7 @@ Page<IIntroDetailData, IIntroPage>({
     wx.setNavigationBarTitle({
       title: this.data.subFile[this.data.curChapter].chapterName,
     });
+    this.updatePercent();
   },
   /**
    * 目录列表显隐click
@@ -319,8 +340,49 @@ Page<IIntroDetailData, IIntroPage>({
   /**
    * 设置显隐click
    */
-  handleSettingToggle() {
-    this.settingToggle(this.data.settingFlag);
+  handleSettingToggle(e: any) {
+    // console.log('handleSettingToggle', e.detail);
+    if (!this.data.settingFlag) {
+      this.updatePercent();
+    }
+    const query = wx.createSelectorQuery()
+    query.select('#detail').boundingClientRect((res) => {
+      const { x, y } = e.detail;
+      const { width, height } = res;
+      // console.log(x, y, width, height);
+      if (x < width * 0.3) {
+        // 左边
+        if (y < height * 0.7) {
+          // 左上 -- 上一页
+          this.previousPage();
+        } else {
+          // 左下 -- 下一页
+          this.nextPage();
+        }
+      } else if (x < width * 0.7) {
+        // 中部
+        if (y < height * 0.3) {
+          // 中上 -- 上一页
+          this.previousPage();
+        } else if (y < height * 0.7) {
+          // 中间 -- 设置栏显隐
+          this.settingToggle(this.data.settingFlag);
+        } else {
+          // 中下 -- 下一页
+          this.nextPage();
+        }
+      } else {
+        // 右边
+        if (y < height * 0.3) {
+          // 右上 -- 上一页
+          this.previousPage();
+        } else {
+          // 右下 -- 下一页
+          this.nextPage();
+        }
+      }
+    })
+    query.exec();
   },
   /**
    * 设置显隐
@@ -425,6 +487,30 @@ Page<IIntroDetailData, IIntroPage>({
   settingDetailToggle() {
     this.setData({
       settingDetailFlag: !this.data.settingDetailFlag,
+    });
+  },
+  sliderChange() {},
+  // 获取阅读进度
+  updatePercent() {
+    const readPercent = parseInt(((this.data.curChapter / this.data.subFile.length) * 100) + '')
+    this.setData({
+      readPercent,
+    })
+  },
+  // 上一页
+  previousPage() {
+    // console.log('previousPage', this.data.scrollTop);
+    const scrollTop = this.data.scrollTop - this.data.pageHeight;
+    this.setData({
+      scrollTop: scrollTop < 0 ? 0 : scrollTop,
+    });
+  },
+  // 下一页
+  nextPage() {
+    console.log('nextPage', this.data.scrollTop);
+    const scrollTop = this.data.scrollTop + this.data.pageHeight;
+    this.setData({
+      scrollTop,
     });
   },
 });

@@ -8,11 +8,13 @@
     color-animation-timing-func="easeIn"
   />
 </page-meta>
-<view class="detail">
+<view class="detail" id="detail">
   <!-- 正文滚动 -->
-  <scroll-view scroll-y="true" bindscroll="handleOnScroll" scroll-top="{{scrollTop}}" class="content-container" style="background-color: {{theme[curTheme].text_bgc }};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
+  <scroll-view scroll-y="true" bindscroll="handleOnScroll" scroll-top="{{scrollTop}}" class="content-container" id="content-container" style="background-color: {{theme[curTheme].text_bgc }};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
     <!-- 正文 -->
-    <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index" style="text-indent: {{fontSize * 2}}rpx;">{{item}}</view>
+    <view>
+      <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index" style="text-indent: {{fontSize * 2}}rpx;">{{item}}</view>
+    </view> 
     <!-- 章节切换按钮 -->
     <view class="content-btn">
       <button class="mini-btn" type="default" size="mini" catchtap="previousChapter">上一章</button>
@@ -41,7 +43,9 @@
     <!-- 上一章  下一章 -->
     <view class="chapter-container" wx:if="{{!settingDetailFlag}}">
       <view class="chapter-btn" catchtap="previousChapter">上一章</view>
-      <!-- <slider bindchange="slider3change" backgroundColor="#353638" block-size="24" block-color="#B5B5B5" step="1" min="1" max="{{subFile.length}}" show-value /> -->
+      <view class="progress-box">
+        <progress percent="{{readPercent}}" show-info stroke-width="3" color="{{theme[curTheme].list_cur_font}}" backgroundColor="{{theme[curTheme].list_next_font}}" />
+      </view>
       <view class="chapter-btn" catchtap="nextChapter">下一章</view>
     </view>
     <view class="setting-more-container" wx:if="{{settingDetailFlag}}">

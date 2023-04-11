@@ -48,6 +48,7 @@ export interface IIntroDetailData {
     subFile: SubFile[];
     idx: number;
     chapterArr: string[][];
+    readPercent: number;
     scrollTop: number;
     listScrollIntoView: string;
     theme: ColorThemeItem[];
@@ -64,4 +65,5 @@ export interface IIntroDetailData {
     txtFileServ: TxtFileServices | null;
     readInfoServ: ReadInfoServices | null;
     timer: number;
+    pageHeight: number;
 }

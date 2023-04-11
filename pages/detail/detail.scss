@@ -4,7 +4,6 @@
   // 正文
   .content-container {
     height: 100vh;
-    background-color: #D4E3D0;
 
     .content-item {
       word-break: break-all;
@@ -20,7 +19,7 @@
     .content-btn {
       display: flex;
       justify-content: space-around;
-      padding: 80rpx 0rpx 100rpx;
+      padding: 16% 0rpx 32%;
 
       button {
         color: #0099ff;
@@ -96,7 +95,7 @@
       height: 76rpx;
       padding: 24rpx 48rpx 16rpx;
 
-      slider {
+      .progress-box {
         min-width: 48%;
       }
     }
