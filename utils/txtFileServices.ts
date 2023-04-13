@@ -1,5 +1,5 @@
 import { SubFile, FileInfo } from "./txtFileTypes";
-import { txtSeparator, num, newChapterReg } from './config';
+import { txtSeparator, num, minRows, newChapterReg } from './config';
 
 export class TxtFileServices {
   // 缓存文件目录名称
@@ -97,6 +97,12 @@ export class TxtFileServices {
       if (this.isNewChapter(item)) {
         // console.log(fileName);
         // console.log(subfileContent);
+        if (subfileContent.length < minRows) {
+          subfileContent.push(item);
+          const lastIndex = subFile.length - 1;
+          subFile[lastIndex].chapterName = String.prototype.trim.call(item);
+          return
+        }
         // 子文件里写入上一章节的内容
         this.fs.appendFileSync(
           wx.env.USER_DATA_PATH + this.fileDir + fileName,
@@ -184,7 +190,7 @@ export class TxtFileServices {
           const chapterArr: string[][] = [];
           let chapterArrItem: string[] = [];
           subBookArr.forEach((item) => {
-            if (this.isNewChapter(item) && chapterArrItem.length > 0) {
+            if (this.isNewChapter(item) && chapterArrItem.length >= minRows) {
               chapterArr.push(chapterArrItem);
               chapterArrItem = [];
             }

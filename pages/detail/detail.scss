@@ -19,7 +19,7 @@
     .content-btn {
       display: flex;
       justify-content: space-around;
-      padding: 16% 0rpx 32%;
+      padding: 10vh 0rpx 100vh;
 
       button {
         color: #0099ff;
@@ -102,6 +102,13 @@
 
     .setting-more-container {
       padding: 24rpx 48rpx 16rpx;
+
+      .setting-more-btns {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16rpx;
+      }
 
       .setting-more-size {
         display: flex;

@@ -1,27 +1,30 @@
 <!--pages/detail/detail.wxml-->
+<!-- navigation-bar -->
 <page-meta>
   <navigation-bar
     loading="{{false}}"
-    front-color="{{night ? '#ffffff' : '#000000'}}"
+    front-color="{{theme[curTheme].nav_bar_font}}"
     background-color="{{theme[curTheme].text_bgc}}"
     color-animation-duration="600"
     color-animation-timing-func="easeIn"
   />
 </page-meta>
+
+<!-- 正文 -->
 <view class="detail" id="detail">
   <!-- 正文滚动 -->
-  <scroll-view scroll-y="true" bindscroll="handleOnScroll" scroll-top="{{scrollTop}}" class="content-container" id="content-container" style="background-color: {{theme[curTheme].text_bgc }};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
+  <scroll-view scroll-y="true" bindscroll="handleOnScroll" scroll-top="{{scrollTop}}" class="content-container" style="background-color: {{theme[curTheme].text_bgc }};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
     <!-- 正文 -->
-    <view>
+    <view id="content-container">
       <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index" style="text-indent: {{fontSize * 2}}rpx;">{{item}}</view>
     </view> 
     <!-- 章节切换按钮 -->
     <view class="content-btn">
-      <button class="mini-btn" type="default" size="mini" catchtap="previousChapter">上一章</button>
-      <button class="mini-btn" type="default" size="mini" data-status="open" catchtap="handleListToggle">目录</button>
-      <button class="mini-btn" type="default" size="mini" catchtap="nextChapter">下一章</button>
+      <button class="mini-btn" type="default" catchtap="previousChapter">上一章</button>
+      <button class="mini-btn" type="default" catchtap="nextChapter">下一章</button>
     </view>
   </scroll-view>
+
   <!-- 目录弹窗 -->
   <view animation="{{listAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box" wx:if="{{listFlag}}">
     <view class="list-real-box" style="background-color: {{theme[curTheme].list_bgc}};">
@@ -38,6 +41,7 @@
       </scroll-view>
     </view>
   </view>
+
   <!-- 设置弹窗 -->
   <view animation="{{settingAnimation}}" class="setting-box" wx:if="{{settingFlag}}" style="background-color: {{theme[curTheme].list_bgc}};color: {{theme[curTheme].list_font}};">
     <!-- 上一章  下一章 -->
@@ -49,6 +53,11 @@
       <view class="chapter-btn" catchtap="nextChapter">下一章</view>
     </view>
     <view class="setting-more-container" wx:if="{{settingDetailFlag}}">
+      <view class="setting-more-btns">
+        <view catchtap="fileResolution">
+          重新解析资源
+        </view>
+      </view>
       <!-- 字体大小 -->
       <view class="setting-more-size">
         <view class="setting-more-size-down" data-status="{{false}}" catchtap='handleFontSize'>A-</view>
@@ -83,6 +92,8 @@
       </view>
     </view>
   </view>
+
+  <!-- 资源加载遮罩 -->
   <loading hidden="{{loadingHidden}}">
     资源解析中... {{ percent }}%
   </loading>

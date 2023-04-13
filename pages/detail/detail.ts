@@ -65,6 +65,8 @@ Page<IIntroDetailData, IIntroPage>({
     timer: 0,
     // 翻页时滚动距离
     pageHeight: 0,
+    // 滚动最大高度 用于定位是否滑到底部
+    maxScrollTop: 0,
   },
   /**
    * 生命周期函数--监听页面加载
@@ -103,12 +105,13 @@ Page<IIntroDetailData, IIntroPage>({
         ...setting,
       });
 
+      // 回到上次阅读位置
       setTimeout(() => {
         this.setData({
           scrollTop: readInfo.scrollTop,
         });
       }, 300);
-  
+
       const subFileStr = wx.getStorageSync(fileInfoField);
       if (!!subFileStr) {
         const subFile = JSON.parse(subFileStr);
@@ -145,12 +148,23 @@ Page<IIntroDetailData, IIntroPage>({
     this.setData({
       loadingHidden: false,
     });
+    // 重新解析文件 跳到之前阅读的章节
+    const reParseFile = this.data.curChapter !== 0 && this.data.curChapter < this.data.subFile.length;
+    let curChapter = 0;
+    let chapterName = '';
+    if (reParseFile) {
+      chapterName = this.data.subFile[this.data.curChapter].chapterName;
+    }
+
     this.data.txtFileServ?.fileResolution(path).then(
       (subFile) => {
+        if (reParseFile) {
+          curChapter = this.data.subFile.findIndex(i => i.chapterName === chapterName);
+        }
         this.setData({
           subFile,
           loadingHidden: true,
-          curChapter: 0,
+          curChapter,
         });
         this.updateCurChapter();
         this.readChildFile();
@@ -269,6 +283,14 @@ Page<IIntroDetailData, IIntroPage>({
       title: this.data.subFile[this.data.curChapter].chapterName,
     });
     this.updatePercent();
+    // 更新最大滚动高度
+    const query = wx.createSelectorQuery()
+    query.select('#content-container').boundingClientRect((res) => {
+      this.setData({
+        maxScrollTop: res.height,
+      })
+    })
+    query.exec();
   },
   /**
    * 目录列表显隐click
@@ -489,7 +511,6 @@ Page<IIntroDetailData, IIntroPage>({
       settingDetailFlag: !this.data.settingDetailFlag,
     });
   },
-  sliderChange() {},
   // 获取阅读进度
   updatePercent() {
     const readPercent = parseInt(((this.data.curChapter / this.data.subFile.length) * 100) + '')
@@ -500,6 +521,10 @@ Page<IIntroDetailData, IIntroPage>({
   // 上一页
   previousPage() {
     // console.log('previousPage', this.data.scrollTop);
+    if (this.data.scrollTop === 0) {
+      this.previousChapter();
+      return;
+    }
     const scrollTop = this.data.scrollTop - this.data.pageHeight;
     this.setData({
       scrollTop: scrollTop < 0 ? 0 : scrollTop,
@@ -507,7 +532,11 @@ Page<IIntroDetailData, IIntroPage>({
   },
   // 下一页
   nextPage() {
-    console.log('nextPage', this.data.scrollTop);
+    // console.log('nextPage', this.data.scrollTop);
+    if (this.data.scrollTop > this.data.maxScrollTop) {
+      this.nextChapter();
+      return;
+    }
     const scrollTop = this.data.scrollTop + this.data.pageHeight;
     this.setData({
       scrollTop,

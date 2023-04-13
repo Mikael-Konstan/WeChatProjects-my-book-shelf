@@ -13,6 +13,7 @@ const defaultSetting: Setting = {
 // 颜色主题 -- 第一个为黑夜主题
 const colorTheme: ColorTheme[] = [
   {
+    nav_bar_font: "#ffffff",
     text_bgc: "#242424",
     text_font: "#888D90",
     list_bgc: "#2C2E2D",
@@ -22,6 +23,7 @@ const colorTheme: ColorTheme[] = [
     list_next_font: "#5A6465",
   },
   {
+    nav_bar_font: "#000000",
     text_bgc: "#E3D9C0",
     text_font: "#3C2911",
     list_bgc: "#EDE2C4",
@@ -31,6 +33,7 @@ const colorTheme: ColorTheme[] = [
     list_next_font: "#A4BBA1",
   },
   {
+    nav_bar_font: "#000000",
     text_bgc: "#D4E3D0",
     text_font: "#0D1C09",
     list_bgc: "#DDEBDA",
@@ -49,6 +52,9 @@ const txtSeparator = "\n";
 
 // 多少章一个缓存文件
 const num = 24;
+
+// 一章最小行数
+const minRows = 5;
 
 // const chinaReg = /[\u4E00-\u9FA5]+/; // 校验中文
 // 校验是为新章节的正则
@@ -69,6 +75,7 @@ export {
   lineHeights,
   txtSeparator,
   num,
+  minRows,
   newChapterReg,
   defaultReadInfo,
 }

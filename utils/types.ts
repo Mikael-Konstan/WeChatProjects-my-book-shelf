@@ -11,6 +11,7 @@ export interface File {
 }
 
 export interface ColorTheme {
+    nav_bar_font: string;
     text_bgc: string;
     text_font: string;
     list_bgc: string;
@@ -66,4 +67,5 @@ export interface IIntroDetailData {
     readInfoServ: ReadInfoServices | null;
     timer: number;
     pageHeight: number;
+    maxScrollTop: number;
 }
