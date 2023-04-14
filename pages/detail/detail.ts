@@ -65,8 +65,6 @@ Page<IIntroDetailData, IIntroPage>({
     timer: 0,
     // 翻页时滚动距离
     pageHeight: 0,
-    // 滚动最大高度 用于定位是否滑到底部
-    maxScrollTop: 0,
   },
   /**
    * 生命周期函数--监听页面加载
@@ -173,6 +171,18 @@ Page<IIntroDetailData, IIntroPage>({
         this.setData({
           loadingHidden: true,
         });
+        wx.showToast({
+          title: '找不到资源',
+          icon: 'error',
+          duration: 3000,
+          mask: true,
+          fail: () => {
+            wx.navigateTo({
+              url: '../bookShelf/bookShelf',
+            })
+          }
+        })
+
       }
     );
   },
@@ -283,14 +293,6 @@ Page<IIntroDetailData, IIntroPage>({
       title: this.data.subFile[this.data.curChapter].chapterName,
     });
     this.updatePercent();
-    // 更新最大滚动高度
-    const query = wx.createSelectorQuery()
-    query.select('#content-container').boundingClientRect((res) => {
-      this.setData({
-        maxScrollTop: res.height,
-      })
-    })
-    query.exec();
   },
   /**
    * 目录列表显隐click
@@ -533,13 +535,20 @@ Page<IIntroDetailData, IIntroPage>({
   // 下一页
   nextPage() {
     // console.log('nextPage', this.data.scrollTop);
-    if (this.data.scrollTop > this.data.maxScrollTop) {
-      this.nextChapter();
-      return;
-    }
-    const scrollTop = this.data.scrollTop + this.data.pageHeight;
-    this.setData({
-      scrollTop,
-    });
+    const query = wx.createSelectorQuery()
+    query.select('#bottomPosition').boundingClientRect((res) => {
+      // console.log(res.top);
+      // console.log(this.data.pageHeight);
+      if (res.top <= this.data.pageHeight) {
+        this.nextChapter();
+        return;
+      }
+      const scrollTop = this.data.scrollTop + this.data.pageHeight;
+      this.setData({
+        scrollTop,
+      });
+      
+    })
+    query.exec();
   },
 });

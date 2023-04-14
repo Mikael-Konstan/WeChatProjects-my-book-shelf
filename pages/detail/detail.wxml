@@ -1,13 +1,7 @@
 <!--pages/detail/detail.wxml-->
 <!-- navigation-bar -->
 <page-meta>
-  <navigation-bar
-    loading="{{false}}"
-    front-color="{{theme[curTheme].nav_bar_font}}"
-    background-color="{{theme[curTheme].text_bgc}}"
-    color-animation-duration="600"
-    color-animation-timing-func="easeIn"
-  />
+  <navigation-bar loading="{{false}}" front-color="{{theme[curTheme].nav_bar_font}}" background-color="{{theme[curTheme].text_bgc}}" color-animation-duration="600" color-animation-timing-func="easeIn" />
 </page-meta>
 
 <!-- 正文 -->
@@ -17,7 +11,9 @@
     <!-- 正文 -->
     <view id="content-container">
       <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index" style="text-indent: {{fontSize * 2}}rpx;">{{item}}</view>
-    </view> 
+    </view>
+    <!-- 滑到底部定位 -->
+    <view id="bottomPosition"> </view>
     <!-- 章节切换按钮 -->
     <view class="content-btn">
       <button class="mini-btn" type="default" catchtap="previousChapter">上一章</button>
@@ -32,9 +28,7 @@
       <view class="scrollToBottom" style="background-color: {{theme[curTheme].list_bgc}};" data-anchor="list-item-bottom" catchtap="handleListScroll">》</view>
       <scroll-view class="list-container" scroll-y="true" scroll-into-view="{{listScrollIntoView}}">
         <view id="list-item-top"></view>
-        <view class="list-item" wx:for="{{subFile}}" wx:key="index" 
-          data-chapter="{{index}}" bindtap='handleJumpChapter' id="{{'list' + index}}" 
-          style="color: {{ index === curChapter ? theme[curTheme].list_cur_font : index < curChapter ? theme[curTheme].list_font : theme[curTheme].list_next_font }};">
+        <view class="list-item" wx:for="{{subFile}}" wx:key="index" data-chapter="{{index}}" bindtap='handleJumpChapter' id="{{'list' + index}}" style="color: {{ index === curChapter ? theme[curTheme].list_cur_font : index < curChapter ? theme[curTheme].list_font : theme[curTheme].list_next_font }};">
           {{item.chapterName}}
         </view>
         <view id="list-item-bottom"></view>

@@ -67,5 +67,4 @@ export interface IIntroDetailData {
     readInfoServ: ReadInfoServices | null;
     timer: number;
     pageHeight: number;
-    maxScrollTop: number;
 }
