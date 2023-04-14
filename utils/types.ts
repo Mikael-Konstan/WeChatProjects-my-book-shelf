@@ -67,4 +67,5 @@ export interface IIntroDetailData {
     readInfoServ: ReadInfoServices | null;
     timer: number;
     pageHeight: number;
+    renderLineHeight: number;
 }

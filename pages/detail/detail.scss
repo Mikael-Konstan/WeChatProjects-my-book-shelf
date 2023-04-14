@@ -5,15 +5,19 @@
   .content-container {
     height: 100vh;
 
+    .content-item-title {
+      word-break: break-all;
+      padding: 0 36rpx;
+      text-align: center;
+    }
+
+    .render-line-height {
+      visibility: hidden;
+    }
+
     .content-item {
       word-break: break-all;
       padding: 0 36rpx;
-    }
-
-    .content-item:first-child {
-      text-indent: unset !important;
-      text-align: center;
-      padding-bottom: 48rpx;
     }
 
     .content-btn {

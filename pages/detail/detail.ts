@@ -65,6 +65,7 @@ Page<IIntroDetailData, IIntroPage>({
     timer: 0,
     // 翻页时滚动距离
     pageHeight: 0,
+    renderLineHeight: 0,
   },
   /**
    * 生命周期函数--监听页面加载
@@ -125,7 +126,12 @@ Page<IIntroDetailData, IIntroPage>({
       const query = wx.createSelectorQuery()
       query.select('#detail').boundingClientRect((res) => {
         this.setData({
-          pageHeight: res.height - 20,
+          pageHeight: res.height,
+        })
+      })
+      query.select('#render-line-height').boundingClientRect((res) => {
+        this.setData({
+          renderLineHeight: res.height,
         })
       })
       query.exec();
@@ -527,9 +533,8 @@ Page<IIntroDetailData, IIntroPage>({
       this.previousChapter();
       return;
     }
-    const scrollTop = this.data.scrollTop - this.data.pageHeight;
     this.setData({
-      scrollTop: scrollTop < 0 ? 0 : scrollTop,
+      scrollTop: this.getScrollTop(false),
     });
   },
   // 下一页
@@ -543,12 +548,24 @@ Page<IIntroDetailData, IIntroPage>({
         this.nextChapter();
         return;
       }
-      const scrollTop = this.data.scrollTop + this.data.pageHeight;
       this.setData({
-        scrollTop,
+        scrollTop: this.getScrollTop(true),
       });
-      
     })
     query.exec();
+  },
+  // 计算scrollTop
+  getScrollTop(flag: boolean) {
+    let scrollTop = this.data.scrollTop;
+    if (flag) {
+      scrollTop += this.data.pageHeight;
+    } else {
+      scrollTop -= this.data.pageHeight;
+    }
+
+    if (scrollTop < 0) return 0;
+
+    const num = parseInt(scrollTop / this.data.renderLineHeight + '');
+    return this.data.renderLineHeight * num;
   },
 });

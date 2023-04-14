@@ -10,10 +10,17 @@
   <scroll-view scroll-y="true" bindscroll="handleOnScroll" scroll-top="{{scrollTop}}" class="content-container" style="background-color: {{theme[curTheme].text_bgc }};color: {{theme[curTheme].text_font}};font-size: {{fontSize}}rpx;line-height: {{lineHeights[lineHeightLevel - 1] * fontSize}}rpx;" bindtap="handleSettingToggle">
     <!-- 正文 -->
     <view id="content-container">
-      <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index" style="text-indent: {{fontSize * 2}}rpx;">{{item}}</view>
+      <!-- 章节名 -->
+      <view class="content-item-title" wx:if="{{chapterArr[idx].length > 0}}">{{chapterArr[idx][0]}}</view>
+      <!-- 空一行距离、获取行高 -->
+      <view class="render-line-height" id="render-line-height">正文</view>
+      <!-- 章节内容 -->
+      <view class="content-item" wx:for="{{chapterArr[idx]}}" wx:key="index" style="text-indent: {{fontSize * 2}}rpx;">
+        <view wx:if="{{index > 0}}">{{item}}</view>
+      </view>
     </view>
     <!-- 滑到底部定位 -->
-    <view id="bottomPosition"> </view>
+    <view id="bottomPosition"></view>
     <!-- 章节切换按钮 -->
     <view class="content-btn">
       <button class="mini-btn" type="default" catchtap="previousChapter">上一章</button>
