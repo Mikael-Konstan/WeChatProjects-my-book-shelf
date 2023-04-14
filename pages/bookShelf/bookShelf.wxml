@@ -1,12 +1,21 @@
 <!--bookShelf.wxml-->
-<view class="book-shelf" bindlongpress="bindLongPress">
+<view class="book-shelf">
   <image bindtap="chooseFile" src="/static/addBook.png" class="addBook"></image>
   <view class="book-container">
-    <view class="book-item" wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index"
-    data-bookItem="{{bookItem}}"
-    bindtap="toDetail">
+    <view class="book-item" wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index" data-bookItem="{{bookItem}}" data-index="{{index}}" bindtap="toDetail" bindlongpress="bindLongPress">
       <image src="{{bookItem.imgSrc ? bookItem.imgSrc : '/static/book.png'}}"></image>
       <text class="book-name"> {{bookItem.name}}</text>
+    </view>
+  </view>
+
+  <!-- 设置弹窗 -->
+  <view animation="{{settingAnimation}}" class="setting-box" wx:if="{{settingFlag}}">
+    <!-- 设置tab -->
+    <view class="setting-container">
+      <view catchtap="handleDelete">删除</view>
+      <!-- <view>重命名</view> -->
+      <!-- <view>取消置顶</view> -->
+      <view catchtap="handleHideSetting">完成</view>
     </view>
   </view>
 </view>

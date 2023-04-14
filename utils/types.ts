@@ -26,7 +26,9 @@ export interface IIntroPage {
 }
 
 export interface IIntroBookShelfData {
-  tempFiles: File[]
+  tempFiles: File[];
+  settingFlag: boolean;
+  selected: number[];
 }
 
 export interface ColorThemeItem {

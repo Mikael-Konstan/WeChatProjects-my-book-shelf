@@ -2,6 +2,7 @@
 .book-shelf {
   position: relative;
   height: 100vh;
+
   .addBook {
     position: fixed;
     right: 64rpx;
@@ -33,5 +34,33 @@
       height: 120rpx;
       margin-bottom: 10rpx;
     }
+
+    .book-name {
+      font-size: 24rpx;
+      width: 30vw;
+      text-align: center;
+      word-break: break-all;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+// 设置
+.setting-box {
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  color: #919B9C;
+  background-color: #2C2E2D;
+
+  .setting-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60rpx;
+    padding: 20rpx 32rpx 60rpx;
   }
 }
