@@ -19,10 +19,8 @@
         <view wx:if="{{index > 0}}">{{item}}</view>
       </view>
     </view>
-    <!-- 滑到底部定位 -->
-    <view id="bottomPosition"></view>
     <!-- 章节切换按钮 -->
-    <view class="content-btn">
+    <view class="content-btn" id="content-btn">
       <button class="mini-btn" type="default" catchtap="previousChapter">上一章</button>
       <button class="mini-btn" type="default" catchtap="nextChapter">下一章</button>
     </view>
@@ -96,6 +94,7 @@
 
   <!-- 资源加载遮罩 -->
   <loading hidden="{{loadingHidden}}">
-    资源解析中... {{ percent }}%
+    <view>资源解析中...</view>
+    <view>{{ percent }}%</view>
   </loading>
 </view>

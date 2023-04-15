@@ -21,7 +21,7 @@
   padding-bottom: 180rpx;
 
   .book-item {
-    width: 30vw;
+    width: 33vw;
     font-size: 32rpx;
     margin-bottom: 32rpx;
     display: flex;
@@ -29,16 +29,35 @@
     justify-content: center;
     align-items: center;
 
-    image {
-      width: 120rpx;
-      height: 120rpx;
-      margin-bottom: 10rpx;
+    .book-back-ground {
+      margin: 0rpx auto 10rpx;
+      width: 24vw;
+      height: 30vw;
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: relative;
+
+      .book-name-more {
+        width: 15vw;
+        height: 20vw;
+        position: absolute;
+        top: 10rpx;
+        left: 7vw;
+        font-size: 25rpx;
+        word-break: break-all;
+        overflow: hidden;
+        display: -webkit-box;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
     }
 
     .book-name {
       font-size: 24rpx;
-      width: 30vw;
-      text-align: center;
+      width: 24vw;
+      text-align: left;
+      padding-left: 24rpx;
       word-break: break-all;
       overflow: hidden;
       white-space: nowrap;

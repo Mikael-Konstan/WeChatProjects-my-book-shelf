@@ -541,7 +541,7 @@ Page<IIntroDetailData, IIntroPage>({
   nextPage() {
     // console.log('nextPage', this.data.scrollTop);
     const query = wx.createSelectorQuery()
-    query.select('#bottomPosition').boundingClientRect((res) => {
+    query.select('#content-btn').boundingClientRect((res) => {
       // console.log(res.top);
       // console.log(this.data.pageHeight);
       if (res.top <= this.data.pageHeight) {

@@ -29,6 +29,7 @@ export interface IIntroBookShelfData {
   tempFiles: File[];
   settingFlag: boolean;
   selected: number[];
+  bgcImg: string;
 }
 
 export interface ColorThemeItem {

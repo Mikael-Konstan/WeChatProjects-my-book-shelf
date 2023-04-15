@@ -11,6 +11,7 @@ Page<IIntroBookShelfData, IIntroPage>({
     // 设置显隐flag
     settingFlag: false,
     selected: [],
+    bgcImg: '/static/book.png',
   },
   onLoad() {
     this.getHistoryFile();
