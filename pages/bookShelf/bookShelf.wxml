@@ -3,7 +3,8 @@
   <image bindtap="chooseFile" src="/static/addBook.png" class="addBook"></image>
   <view class="book-container">
     <view class="book-item" wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index" data-bookItem="{{bookItem}}" data-index="{{index}}" bindtap="toDetail" bindlongpress="bindLongPress">
-      <view class="book-back-ground" style="background-image: url('{{bookItem.imgSrc ? bookItem.imgSrc : bgcImg}}');">
+      <view class="book-back-ground">
+        <image class="book-back-ground-img" src="{{bookItem.imgSrc ? bookItem.imgSrc : bgcImg}}"></image>
         <text class="book-name-more">{{bookItem.name}}</text>
       </view>
       <text class="book-name">{{bookItem.name}}</text>
