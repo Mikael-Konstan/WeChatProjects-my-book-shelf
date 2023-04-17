@@ -374,6 +374,9 @@ Page<IIntroDetailData, IIntroPage>({
     // console.log('handleSettingToggle', e.detail);
     if (!this.data.settingFlag) {
       this.updatePercent();
+    } else {
+      this.settingToggle(this.data.settingFlag);
+      return;
     }
     const query = wx.createSelectorQuery()
     query.select('#detail').boundingClientRect((res) => {

@@ -21,9 +21,12 @@
     }
 
     .content-btn {
+      height: 100vh;
+      box-sizing: content-box;
       display: flex;
       justify-content: space-around;
-      padding: 10vh 0rpx 90vh;
+      align-items: flex-start;
+      padding-top: 10vh;
 
       button {
         color: #0099ff;
