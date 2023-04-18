@@ -10,7 +10,7 @@
   <!-- <cover-image src="{{imgSrc}}"></cover-image> -->
 
   <view data-status="open" bindtap="handleMaskToggle">抽屉</view>
-  <view animation="{{animationData}}" bindtap='handleMaskToggle' data-status="close" class="drawer-box" wx:if="{{model}}">
+  <view animation="{{animationData}}" bindtap='handleMaskToggle' data-status="close" class="drawer-box">
     <view class="mark-box">抽屉内容</view>
   </view>
 </view>

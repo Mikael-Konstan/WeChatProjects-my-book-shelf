@@ -10,6 +10,11 @@ Page<IIntroBookShelfData, IIntroPage>({
     tempFiles: [],
     // 设置显隐flag
     settingFlag: false,
+    settingAnimation: wx.createAnimation({
+      duration: 300,
+      timingFunction: "linear",
+      delay: 0,
+    }).translateY(150).step(),
     selected: [],
     bgcImg: '/static/newBook.png',
   },
@@ -99,30 +104,19 @@ Page<IIntroBookShelfData, IIntroPage>({
    * 设置显隐
    */
   settingToggle(settingFlag: boolean) {
-    const animation = wx.createAnimation({
-      duration: 100,
+    const settingAnimation = wx.createAnimation({
+      duration: 300,
       timingFunction: "linear",
       delay: 0,
     });
-    animation.translateY(150).step();
-    this.setData({
-      settingAnimation: animation.export(),
-    });
-    if (!settingFlag) {
-      this.setData({
-        settingFlag: true,
-      });
+    if (settingFlag) {
+      settingAnimation.translateY(150).step();
+    } else {
+      settingAnimation.translateY(0).step();
     }
-    setTimeout(() => {
-      animation.translateY(0).step();
-      this.setData({
-        settingAnimation: animation,
-      });
-      if (settingFlag) {
-        this.setData({
-          settingFlag: false,
-        });
-      }
-    }, 100);
+    this.setData({
+      settingFlag: !settingFlag,
+      settingAnimation,
+    });
   },
 })

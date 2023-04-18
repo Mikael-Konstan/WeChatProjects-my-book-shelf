@@ -6,12 +6,11 @@ Page({
    */
   data: {
     imgSrc: '',
-    model: false,
-    animation: wx.createAnimation({
-      duration: 100,
+    animationData: wx.createAnimation({
+      duration: 300,
       timingFunction: "linear",
       delay: 0
-    }),
+    }).translateX(-wx.getWindowInfo().screenWidth).step(),
   },
 
   /**
@@ -143,31 +142,19 @@ Page({
     this.initModel(e.currentTarget.dataset.status)
   },
   initModel(status: string) {
-    const animation = wx.createAnimation({
-      duration: 100,
+    const listFlag = status === 'open';
+    const animationData = wx.createAnimation({
+      duration: 300,
       timingFunction: "linear",
-      delay: 0
-    })
-    this.data.animation = animation;
-    animation.translateX(-150).step();
-    this.setData({
-      animationData: animation.export()
-    })
-    setTimeout(() => {
-      animation.translateX(0).step()
-      this.setData({
-        animationData: animation
-      })
-      if (status == "close") {
-        this.setData({
-          model: false
-        })
-      }
-    }, 100)
-    if (status == "open") {
-      this.setData({
-        model: true
-      })
+      delay: 0,
+    });
+    if (listFlag) {
+      animationData.translateX(0).step();
+    } else {
+      animationData.translateX(-wx.getWindowInfo().screenWidth).step();
     }
+    this.setData({
+      animationData,
+    });
   },
 })

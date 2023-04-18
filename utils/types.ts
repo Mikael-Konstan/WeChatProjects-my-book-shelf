@@ -28,6 +28,7 @@ export interface IIntroPage {
 export interface IIntroBookShelfData {
   tempFiles: File[];
   settingFlag: boolean;
+  settingAnimation: WechatMiniprogram.Animation;
   selected: number[];
   bgcImg: string;
 }
@@ -54,9 +55,11 @@ export interface IIntroDetailData {
     chapterArr: string[][];
     readPercent: number;
     scrollTop: number;
+    listAnimation: WechatMiniprogram.Animation;
     listScrollIntoView: string;
     theme: ColorThemeItem[];
     settingFlag: boolean;
+    settingAnimation: WechatMiniprogram.Animation;
     settingDetailFlag: boolean;
     fontSizeMin: number;
     fontSizeMax: number;

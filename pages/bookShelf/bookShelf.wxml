@@ -12,7 +12,7 @@
   </view>
 
   <!-- 设置弹窗 -->
-  <view animation="{{settingAnimation}}" class="setting-box" wx:if="{{settingFlag}}">
+  <view animation="{{settingAnimation}}" class="setting-box">
     <!-- 设置tab -->
     <view class="setting-container">
       <view catchtap="handleDelete">删除</view>

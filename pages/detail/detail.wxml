@@ -27,7 +27,7 @@
   </scroll-view>
 
   <!-- 目录弹窗 -->
-  <view animation="{{listAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box" wx:if="{{listFlag}}">
+  <view animation="{{listAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box">
     <view class="list-real-box" style="background-color: {{theme[curTheme].list_bgc}};">
       <view class="scrollToTop" style="background-color: {{theme[curTheme].list_bgc}};" data-anchor="list-item-top" catchtap="handleListScroll">《</view>
       <view class="scrollToBottom" style="background-color: {{theme[curTheme].list_bgc}};" data-anchor="list-item-bottom" catchtap="handleListScroll">》</view>
@@ -42,7 +42,7 @@
   </view>
 
   <!-- 设置弹窗 -->
-  <view animation="{{settingAnimation}}" class="setting-box" wx:if="{{settingFlag}}" style="background-color: {{theme[curTheme].list_bgc}};color: {{theme[curTheme].list_font}};">
+  <view animation="{{settingAnimation}}" class="setting-box" style="background-color: {{theme[curTheme].list_bgc}};color: {{theme[curTheme].list_font}};">
     <!-- 上一章  下一章 -->
     <view class="chapter-container" wx:if="{{!settingDetailFlag}}">
       <view class="chapter-btn" catchtap="previousChapter">上一章</view>

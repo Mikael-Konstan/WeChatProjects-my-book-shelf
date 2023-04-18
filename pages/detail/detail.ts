@@ -38,11 +38,21 @@ Page<IIntroDetailData, IIntroPage>({
     // 阅读进度百分比
     readPercent: 0,
     scrollTop: 0,
+    listAnimation: wx.createAnimation({
+      duration: 300,
+      timingFunction: "linear",
+      delay: 0,
+    }).translateX(-wx.getWindowInfo().screenWidth).step(),
     // 目录 锚点滚动到当前章节
     listScrollIntoView: '',
     theme: colorTheme,
     // 设置显隐flag
     settingFlag: false,
+    settingAnimation: wx.createAnimation({
+      duration: 300,
+      timingFunction: "linear",
+      delay: 0,
+    }).translateY(150).step(),
     // 设置详情显隐flag
     settingDetailFlag: false,
     fontSizeMin: 16,
@@ -314,27 +324,21 @@ Page<IIntroDetailData, IIntroPage>({
    * 目录列表显隐
    */
   listToggle(status: string) {
-    const animation = wx.createAnimation({
-      duration: 100,
+    const listFlag = status === 'open';
+    const listAnimation = wx.createAnimation({
+      duration: 300,
       timingFunction: "linear",
       delay: 0,
     });
-    animation.translateX(-150).step();
+    if (listFlag) {
+      listAnimation.translateX(0).step();
+    } else {
+      listAnimation.translateX(-wx.getWindowInfo().screenWidth).step();
+    }
     this.setData({
-      listAnimation: animation.export(),
+      listAnimation,
     });
-    setTimeout(() => {
-      animation.translateX(0).step();
-      this.setData({
-        listAnimation: animation,
-      });
-      if (status == "close") {
-        this.setData({
-          listFlag: false,
-        });
-      }
-    }, 100);
-    if (status == "open") {
+    if (listFlag) {
       // 往下显示八章 显示在中间
       let curChapter = this.data.curChapter;
       for (let i = 3; i > 0; i--) {
@@ -345,7 +349,6 @@ Page<IIntroDetailData, IIntroPage>({
         }
       }
       this.setData({
-        listFlag: true,
         listScrollIntoView: 'list' + curChapter,
       });
     }
@@ -421,31 +424,20 @@ Page<IIntroDetailData, IIntroPage>({
    * 设置显隐
    */
   settingToggle(settingFlag: boolean) {
-    const animation = wx.createAnimation({
-      duration: 100,
+    const settingAnimation = wx.createAnimation({
+      duration: 300,
       timingFunction: "linear",
       delay: 0,
     });
-    animation.translateY(150).step();
-    this.setData({
-      settingAnimation: animation.export(),
-    });
-    if (!settingFlag) {
-      this.setData({
-        settingFlag: true,
-      });
+    if (settingFlag) {
+      settingAnimation.translateY(150).step();
+    } else {
+      settingAnimation.translateY(0).step();
     }
-    setTimeout(() => {
-      animation.translateY(0).step();
-      this.setData({
-        settingAnimation: animation,
-      });
-      if (settingFlag) {
-        this.setData({
-          settingFlag: false,
-        });
-      }
-    }, 100);
+    this.setData({
+      settingFlag: !settingFlag,
+      settingAnimation,
+    });
   },
   // 黑夜白天切换
   nightToggle() {
