@@ -90,6 +90,13 @@ Page<IIntroBookShelfData, IIntroPage>({
    */
   handleHideSetting() {
     this.settingToggle(this.data.settingFlag);
+    setTimeout(() => {
+      wx.showTabBar({
+        fail: () => {
+          this.settingToggle(this.data.settingFlag);
+        }
+      });
+    }, 300);
   },
   /**
    * 删除选中书籍
