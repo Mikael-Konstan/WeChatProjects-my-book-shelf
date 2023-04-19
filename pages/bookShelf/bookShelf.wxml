@@ -6,6 +6,8 @@
       <view class="book-back-ground">
         <image class="book-back-ground-img" src="{{bookItem.imgSrc ? bookItem.imgSrc : bgcImg}}"></image>
         <text class="book-name-more">{{bookItem.name}}</text>
+        <view class="book-select" wx:if="{{settingFlag && !bookItem.selected}}"></view>
+        <image class="book-selected-icon" wx:if="{{settingFlag && bookItem.selected}}" src="/static/selected.png" />
       </view>
       <text class="book-name">{{bookItem.name}}</text>
     </view>

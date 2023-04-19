@@ -8,6 +8,7 @@ export interface File {
   path: string;
   time: number;
   type: string;
+  selected?: boolean;
 }
 
 export interface ColorTheme {
@@ -29,7 +30,6 @@ export interface IIntroBookShelfData {
   tempFiles: File[];
   settingFlag: boolean;
   settingAnimation: WechatMiniprogram.Animation;
-  selected: number[];
   bgcImg: string;
 }
 

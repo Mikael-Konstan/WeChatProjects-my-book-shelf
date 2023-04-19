@@ -15,7 +15,6 @@ Page<IIntroBookShelfData, IIntroPage>({
       timingFunction: "linear",
       delay: 0,
     }).translateY(150).step(),
-    selected: [],
     bgcImg: '/static/newBook.png',
   },
   onLoad() {
@@ -48,19 +47,10 @@ Page<IIntroBookShelfData, IIntroPage>({
   },
   // 去详情
   toDetail(e: any) {
-    console.log(e);
+    // console.log(e);
     const dataset = e.currentTarget.dataset;
     if (this.data.settingFlag) {
-      const index = dataset.index;
-      const idx = this.data.selected.findIndex(i => i === index);
-      if (idx === -1) {
-        this.setData({
-          selected: [...this.data.selected, index],
-        })
-      } else {
-        const selected = this.data.selected.splice(idx, 1);
-        this.setData({ selected });
-      }
+      this.selectedToggle(dataset.index);
       return;
     }
     wx.navigateTo({
@@ -77,12 +67,27 @@ Page<IIntroBookShelfData, IIntroPage>({
     wx.hideTabBar({
       success: () => {
         // console.log('success');
-        const index = e.currentTarget.dataset.index;
-        this.setData({ selected: [index] })
         if (!this.data.settingFlag) {
+          const index = e.currentTarget.dataset.index;
           this.settingToggle(this.data.settingFlag);
+          this.selectedToggle(index);
         }
       }
+    });
+  },
+  // 书籍选中Toggle
+  selectedToggle(index: number) {
+    const tempFiles = this.data.tempFiles;
+    tempFiles[index].selected = !tempFiles[index].selected;
+    this.setData({ tempFiles });
+  },
+  // 书籍全选Toggle
+  selectedAllToggle(selected: boolean) {
+    this.setData({
+      tempFiles: this.data.tempFiles.map(i => {
+        i.selected = selected;
+        return i
+      })
     });
   },
   /**
@@ -102,9 +107,7 @@ Page<IIntroBookShelfData, IIntroPage>({
    * 删除选中书籍
    */
   handleDelete() {
-    const tempFiles = this.data.tempFiles.filter((item, index) => {
-      return !Array.prototype.includes.call(this.data.selected, index)
-    });
+    const tempFiles = this.data.tempFiles.filter(i => i.selected);
     this.updateFiles(tempFiles);
   },
   /**
@@ -120,6 +123,7 @@ Page<IIntroBookShelfData, IIntroPage>({
       settingAnimation.translateY(150).step();
     } else {
       settingAnimation.translateY(0).step();
+      this.selectedAllToggle(false);
     }
     this.setData({
       settingFlag: !settingFlag,
