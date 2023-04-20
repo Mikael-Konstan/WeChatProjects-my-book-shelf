@@ -15,7 +15,7 @@ Page<IIntroBookShelfData, IIntroPage>({
       timingFunction: "linear",
       delay: 0,
     }).translateY(150).step(),
-    bgcImg: '/static/newBook.png',
+    bgcImg: '/static/book.png',
   },
   onLoad() {
     this.getHistoryFile();
@@ -107,7 +107,7 @@ Page<IIntroBookShelfData, IIntroPage>({
    * 删除选中书籍
    */
   handleDelete() {
-    const tempFiles = this.data.tempFiles.filter(i => i.selected);
+    const tempFiles = this.data.tempFiles.filter(i => !i.selected);
     this.updateFiles(tempFiles);
   },
   /**

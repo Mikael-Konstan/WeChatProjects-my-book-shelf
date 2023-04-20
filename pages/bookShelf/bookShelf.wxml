@@ -1,7 +1,8 @@
-<!--bookShelf.wxml-->
+<!-- bookShelf.wxml -->
 <view class="book-shelf">
-  <image bindtap="chooseFile" src="/static/addBook.png" class="addBook"></image>
+  <!-- <image bindtap="chooseFile" src="/static/addBook.png" class="addBook"></image> -->
   <view class="book-container">
+    <!-- 书籍列表 -->
     <view class="book-item" wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index" data-bookItem="{{bookItem}}" data-index="{{index}}" bindtap="toDetail" bindlongpress="bindLongPress">
       <view class="book-back-ground">
         <image class="book-back-ground-img" src="{{bookItem.imgSrc ? bookItem.imgSrc : bgcImg}}"></image>
@@ -9,10 +10,17 @@
         <view class="book-select" wx:if="{{settingFlag && !bookItem.selected}}"></view>
         <image class="book-selected-icon" wx:if="{{settingFlag && bookItem.selected}}" src="/static/selected.png" />
       </view>
-      <text class="book-name">{{bookItem.name}}</text>
+      <view class="book-name">{{bookItem.name}}</view>
+    </view>
+    <!-- 添加书籍 -->
+    <view class="book-item" bindtap="chooseFile">
+      <view class="book-back-ground addNewBook">
+        <view class="add-book-icon">+</view>
+        <view class="add-book-title">添加小说</view>
+      </view>
+      <text class="book-name"> </text>
     </view>
   </view>
-
   <!-- 设置弹窗 -->
   <view animation="{{settingAnimation}}" class="setting-box">
     <!-- 设置tab -->
