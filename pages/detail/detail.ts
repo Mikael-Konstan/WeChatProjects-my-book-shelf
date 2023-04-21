@@ -444,6 +444,7 @@ Page<IIntroDetailData, IIntroPage>({
     }
     this.setData({
       settingFlag: !settingFlag,
+      settingDetailFlag: false,
       settingAnimation,
     });
   },
