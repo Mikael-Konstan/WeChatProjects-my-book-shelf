@@ -66,11 +66,11 @@
       <!-- 行高等级 -->
       <view class="setting-more-line-height">
         <view class="setting-more-line-height-down" data-status="{{false}}" catchtap='handleLineHeight'>
-          <image src="./../../static/lineHeightSmall.png" mode="" />
+          <image src="{{img.lineHeightSmall}}" mode="" />
         </view>
         <slider bindchange="lineHeightChange" backgroundColor="#353638" block-size="24" block-color="#B5B5B5" step="1" min="1" max="{{lineHeights.length}}" value="{{lineHeightLevel}}" show-value />
         <view class="setting-more-line-height-up" data-status="{{true}}" catchtap='handleLineHeight'>
-          <image src="./../../static/lineHeightBig.png" mode="" />
+          <image src="{{img.lineHeightBig}}" mode="" />
         </view>
       </view>
       <!-- 主题 背景色 -->

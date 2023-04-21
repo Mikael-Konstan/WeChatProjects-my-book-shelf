@@ -7,6 +7,10 @@ import {
   lineHeights,
 } from './../../utils/config';
 import {
+  lineHeightSmall,
+  lineHeightBig,
+} from './../../utils/base64';
+import {
   IIntroPage,
   IIntroDetailData,
 } from './../../utils/types';
@@ -16,6 +20,10 @@ Page<IIntroDetailData, IIntroPage>({
    * 页面的初始数据
    */
   data: {
+    img: {
+      lineHeightSmall,
+      lineHeightBig,
+    },
     // 解析文件遮罩
     loadingHidden: true,
     // 解析文件进度

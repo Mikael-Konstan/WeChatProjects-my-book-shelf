@@ -5,6 +5,11 @@ import {
   File,
 } from './../../utils/types';
 
+import {
+  book,
+  selected,
+} from './../../utils/base64';
+
 Page<IIntroBookShelfData, IIntroPage>({
   data: {
     tempFiles: [],
@@ -15,7 +20,10 @@ Page<IIntroBookShelfData, IIntroPage>({
       timingFunction: "linear",
       delay: 0,
     }).translateY(150).step(),
-    bgcImg: '/static/book.png',
+    img: {
+      book,
+      selected,
+    },
   },
   onLoad() {
     this.getHistoryFile();
