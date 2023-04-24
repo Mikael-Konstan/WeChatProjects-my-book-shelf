@@ -504,7 +504,7 @@ Page<IIntroDetailData, IIntroPage>({
   // 主题颜色
   handleThemeColor(e: any) {
     const curTheme = e.currentTarget.dataset.curtheme;
-    this.setData({ curTheme, oldTheme: curTheme });
+    this.setData({ curTheme, oldTheme: curTheme, night: false });
     this.updateSetting();
   },
   // 更新设置
