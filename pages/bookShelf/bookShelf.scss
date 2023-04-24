@@ -61,23 +61,21 @@
         -webkit-box-orient: vertical;
       }
 
-      .book-select,
-      .book-selected-icon {
-        width: 42rpx;
-        height: 42rpx;
+      .book-selected-icon,
+      .book-unselected-icon {
         position: absolute;
-        right: 24rpx;
-        bottom: 24rpx;
+        right: 30rpx;
+        bottom: 16rpx;
         z-index: 2;
-        border: 1rpx solid #fff;
-        background-color: #ccc;
-        border-radius: 50%;
-        box-sizing: border-box;
+        font-size: 42rpx;
       }
 
-      .book-selected-icon {
-        border: none;
-        background-color: transparent;
+      .book-selected-icon::before{
+        content: "\e603";
+      }
+    
+      .book-unselected-icon::before {
+        content: "\e602";
       }
     }
 

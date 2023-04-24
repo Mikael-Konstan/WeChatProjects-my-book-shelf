@@ -7,7 +7,6 @@ import {
 
 import {
   book,
-  selected,
 } from './../../utils/base64';
 
 Page<IIntroBookShelfData, IIntroPage>({
@@ -22,7 +21,6 @@ Page<IIntroBookShelfData, IIntroPage>({
     }).translateY(150).step(),
     img: {
       book,
-      selected,
     },
   },
   onLoad() {
