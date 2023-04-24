@@ -22,6 +22,7 @@ Page<IIntroBookShelfData, IIntroPage>({
     img: {
       book,
     },
+    selectedIds: [],
   },
   onLoad() {
     this.getHistoryFile();
@@ -62,7 +63,7 @@ Page<IIntroBookShelfData, IIntroPage>({
     // console.log(e);
     const dataset = e.currentTarget.dataset;
     if (this.data.settingFlag) {
-      this.selectedToggle(dataset.index);
+      this.selectedToggle(dataset.bookitem.id);
       return;
     }
     wx.navigateTo({
@@ -80,26 +81,28 @@ Page<IIntroBookShelfData, IIntroPage>({
       success: () => {
         // console.log('success');
         if (!this.data.settingFlag) {
-          const index = e.currentTarget.dataset.index;
+          const id = e.currentTarget.dataset.bookitem.id;
           this.settingToggle(this.data.settingFlag);
-          this.selectedToggle(index);
+          this.selectedToggle(id);
         }
       }
     });
   },
   // 书籍选中Toggle
-  selectedToggle(index: number) {
-    const tempFiles = this.data.tempFiles;
-    tempFiles[index].selected = !tempFiles[index].selected;
-    this.setData({ tempFiles });
+  selectedToggle(id: string) {
+    let selectedIds = this.data.selectedIds;
+    const idx = selectedIds.findIndex(i => i === id);
+    if (idx === -1) {
+      selectedIds.push(id);
+    } else {
+      selectedIds.splice(idx , 1);
+    }
+    this.setData({ selectedIds });
   },
   // 书籍全选Toggle
-  selectedAllToggle(selected: boolean) {
+  selectedAllToggle(selectAll: boolean) {
     this.setData({
-      tempFiles: this.data.tempFiles.map(i => {
-        i.selected = selected;
-        return i
-      })
+      selectedIds: selectAll ? this.data.tempFiles.map(i => i.id) : [],
     });
   },
   /**
@@ -119,7 +122,9 @@ Page<IIntroBookShelfData, IIntroPage>({
    * 删除选中书籍
    */
   handleDelete() {
-    const tempFiles = this.data.tempFiles.filter(i => !i.selected);
+    const tempFiles = this.data.tempFiles.filter(i => {
+      return Array.prototype.includes.call(this.data.selectedIds, i.id);
+    });
     this.updateFiles(tempFiles);
   },
   /**
@@ -146,9 +151,10 @@ Page<IIntroBookShelfData, IIntroPage>({
    * 重命名
    */
   handleRename() {
-    const selected = this.data.tempFiles.filter(i => i.selected);
-    if (selected.length !== 1) return;
-    const content = selected[0].rename || selected[0].name
+    if (this.data.selectedIds.length !== 1) return;
+    const id = this.data.selectedIds[0];
+    const selected = (this.data.tempFiles.filter(i => i.id === id))[0];
+    const content = selected.rename || selected.name
     wx.showModal({
       title: '重命名',
       editable: true,
@@ -157,7 +163,7 @@ Page<IIntroBookShelfData, IIntroPage>({
         if (res.confirm) {
           // console.log('用户点击确定', res);
           this.updateFiles(this.data.tempFiles.map(item => {
-            if (item.id === selected[0].id) {
+            if (item.id === selected.id) {
               return {
                 ...item,
                 rename: res.content,

@@ -13,7 +13,6 @@ export interface File {
   path: string;
   time: number;
   type: string;
-  selected?: boolean;
   rename?: string;
 }
 
@@ -36,6 +35,7 @@ export interface IIntroBookShelfData extends Image {
   tempFiles: File[];
   settingFlag: boolean;
   settingAnimation: WechatMiniprogram.Animation;
+  selectedIds: string[];
 }
 
 export interface ColorThemeItem {

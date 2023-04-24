@@ -8,8 +8,7 @@
       <view class="book-back-ground">
         <image class="book-back-ground-img" src="{{!bookItem.imgSrc ? img.book : bookItem.imgSrc}}" />
         <text class="book-name-more">{{bookItem.rename || bookItem.name}}</text>
-        <icon class="iconfont book-selected-icon" wx:if="{{settingFlag && bookItem.selected}}" />
-        <icon class="iconfont book-unselected-icon" wx:if="{{settingFlag && !bookItem.selected}}" />
+        <icon class="{{tools.getSelectClass(bookItem, selectedIds)}}" wx:if="{{settingFlag}}" />
       </view>
       <view class="book-name">{{bookItem.rename || bookItem.name}}</view>
     </view>
@@ -26,7 +25,7 @@
     <!-- 设置tab -->
     <view class="setting-container">
       <view catchtap="handleDelete">删除</view>
-      <view catchtap="handleRename" class="{{tools.getDisabled(tempFiles)}}">重命名</view>
+      <view catchtap="handleRename" class="{{tools.getDisabled(selectedIds)}}">重命名</view>
       <!-- <view>取消置顶</view> -->
       <view catchtap="handleHideSetting">完成</view>
     </view>
