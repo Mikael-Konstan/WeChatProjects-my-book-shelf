@@ -164,7 +164,14 @@
         .setting-more-line-height-down,
         .setting-more-line-height-up {
           width: 72rpx;
-          text-align: center;
+
+          .lineHeightSmall::before {
+            content: "\e601";
+          }
+
+          .lineHeightBig::before {
+            content: "\e600";
+          }
 
           image {
             width: 40rpx;
@@ -176,7 +183,6 @@
           min-width: 52%;
         }
       }
-
     }
 
     .tab-container {
