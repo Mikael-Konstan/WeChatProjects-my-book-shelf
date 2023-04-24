@@ -41,7 +41,13 @@ Page<IIntroBookShelfData, IIntroPage>({
       count: 9,
       success: (res) => {
         console.log(res);
-        const tempFiles = Array.prototype.concat(this.data.tempFiles, res.tempFiles);
+        const newTempFiles = res.tempFiles.map((item, index) => {
+          return {
+            ...item,
+            id: new Date().getTime() + '' + index,
+          }
+        })
+        const tempFiles = Array.prototype.concat(this.data.tempFiles, newTempFiles);
         this.updateFiles(tempFiles);
       }
     })
@@ -136,4 +142,33 @@ Page<IIntroBookShelfData, IIntroPage>({
       settingAnimation,
     });
   },
+  /**
+   * 重命名
+   */
+  handleRename() {
+    const selected = this.data.tempFiles.filter(i => i.selected);
+    if (selected.length !== 1) return;
+    const content = selected[0].rename || selected[0].name
+    wx.showModal({
+      title: '重命名',
+      editable: true,
+      content,
+      success: res => {
+        if (res.confirm) {
+          // console.log('用户点击确定', res);
+          this.updateFiles(this.data.tempFiles.map(item => {
+            if (item.id === selected[0].id) {
+              return {
+                ...item,
+                rename: res.content,
+              }
+            }
+            return item;
+          }))
+        } else if (res.cancel) {
+          // console.log('用户点击取消')
+        }
+      }
+    })
+  }
 })

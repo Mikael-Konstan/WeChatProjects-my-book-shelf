@@ -7,12 +7,14 @@ export interface Image {
 }
 
 export interface File {
+  id: string;
   name: string;
   size: number;
   path: string;
   time: number;
   type: string;
   selected?: boolean;
+  rename?: string;
 }
 
 export interface ColorTheme {

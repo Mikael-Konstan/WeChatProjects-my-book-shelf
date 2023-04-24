@@ -70,10 +70,10 @@
         font-size: 42rpx;
       }
 
-      .book-selected-icon::before{
+      .book-selected-icon::before {
         content: "\e603";
       }
-    
+
       .book-unselected-icon::before {
         content: "\e602";
       }
@@ -115,8 +115,8 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  color: #919B9C;
-  background-color: #2C2E2D;
+  color: #2C2E2D;
+  box-shadow: 0 -2px 8px 0 rgba(0, 0, 0, .1);
 
   .setting-container {
     display: flex;
@@ -125,4 +125,8 @@
     height: 60rpx;
     padding: 20rpx 32rpx 60rpx;
   }
+}
+
+.disabled {
+  color: #919B9C;
 }

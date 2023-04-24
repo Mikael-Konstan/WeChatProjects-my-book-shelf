@@ -1,0 +1,11 @@
+// 重命名按钮是否置灰
+var getDisabled = function (tempFiles) {
+  var arr = tempFiles.filter(function (i) {
+    return i.selected
+  })
+  return arr.length === 1 ? '' : 'disabled';
+}
+
+module.exports = {
+  getDisabled: getDisabled,
+};
