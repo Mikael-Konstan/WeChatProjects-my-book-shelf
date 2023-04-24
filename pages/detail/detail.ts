@@ -23,6 +23,7 @@ Page<IIntroDetailData, IIntroPage>({
     percent: 0,
     // 源文件信息
     file: {
+      id: '',
       name: "",
       size: 1,
       path: "",
@@ -214,10 +215,9 @@ Page<IIntroDetailData, IIntroPage>({
       .then(
         (res) => {
           console.log(res);
-          this.setData(res);
-          wx.pageScrollTo({
+          this.setData({
+            ...res,
             scrollTop: 0,
-            duration: 300,
           });
         },
         (err) => {
@@ -251,7 +251,6 @@ Page<IIntroDetailData, IIntroPage>({
     if (this.data.idx === 0) {
       this.setData({
         curChapter: this.data.curChapter - 1,
-        scrollTop: 0,
       });
       this.readChildFile();
     } else {
@@ -275,7 +274,6 @@ Page<IIntroDetailData, IIntroPage>({
     if (this.data.idx === this.data.chapterArr.length - 1) {
       this.setData({
         curChapter: this.data.curChapter + 1,
-        scrollTop: 0,
       });
       this.readChildFile();
     } else {
@@ -294,7 +292,6 @@ Page<IIntroDetailData, IIntroPage>({
   jumpChapter(curChapter: number) {
     this.setData({
       curChapter,
-      scrollTop: 0,
     });
     this.readChildFile();
     this.updateCurChapter();
