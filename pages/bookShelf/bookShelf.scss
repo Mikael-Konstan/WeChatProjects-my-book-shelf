@@ -105,6 +105,24 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      position: relative;
+
+      .book-topping-icon {
+        font-size: 24rpx;
+        color: #E29C3A;
+        position: absolute;
+        left: 32rpx;
+        bottom: 5rpx;
+        z-index: 2;
+      }
+
+      .book-topping-icon::before {
+        content: "\e9aa";
+      }
+    }
+
+    .book-name-topping {
+      padding-left: 54rpx;
     }
   }
 }

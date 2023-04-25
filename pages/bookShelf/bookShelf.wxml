@@ -11,7 +11,10 @@
           <text class="book-name-more">{{bookItem.rename || bookItem.name}}</text>
           <icon class="{{tools.getSelectClass(bookItem, selectedIds)}}" wx:if="{{settingFlag}}" />
         </view>
-        <view class="book-name">{{bookItem.rename || bookItem.name}}</view>
+        <view class="book-name book-name-topping">
+          <icon class="iconfont book-topping-icon" />
+          <text>{{bookItem.rename || bookItem.name}}</text>
+        </view>
       </view>
     </block>
     <!-- 书籍列表 -->
