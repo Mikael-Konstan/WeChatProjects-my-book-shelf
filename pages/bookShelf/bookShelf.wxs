@@ -1,10 +1,59 @@
 /**
+ * 删除按钮是否置灰
+ * @param selectedIds 选中书籍ID集合
+ * @returns className
+ */
+var deleteDisabled = function (selectedIds) {
+  return selectedIds.length > 0 ? '' : 'disabled';
+}
+
+/**
  * 重命名按钮是否置灰
  * @param selectedIds 选中书籍ID集合
- * @returns boolean
+ * @returns className
  */
-var getDisabled = function (selectedIds) {
+var renameDisabled = function (selectedIds) {
   return selectedIds.length === 1 ? '' : 'disabled';
+}
+
+/**
+ * 置顶、取消置顶按钮是否置灰
+ * @param selectedIds 选中书籍ID集合
+ * @param toppingIds 置顶书籍ID集合
+ * @param flag 置顶、取消置顶按钮区分
+ * @returns className
+ */
+var toppingDisabled = function (selectedIds, toppingIds, flag) {
+  var topping = false;
+  var unTopping = false;
+  selectedIds.forEach(function (i) {
+    var mixed = toppingIds.filter(function (id) {
+      return id === i
+    });
+    if (mixed.length > 0) {
+      unTopping = true;
+    } else {
+      topping = true;
+    }
+  });
+  if (flag) {
+    return topping ? '' : 'disabled';
+  } else {
+    return unTopping > 0 ? '' : 'disabled';
+  }
+}
+
+/**
+ * 书籍是否置顶
+ * @param bookItem 书籍数据
+ * @param toppingIds 置顶书籍ID集合
+ * @returns className
+ */
+var isTopping = function (bookItem, toppingIds) {
+  var ids = toppingIds.filter(function (i) {
+    return i === bookItem.id
+  });
+  return ids.length > 0;
 }
 
 /**
@@ -21,6 +70,9 @@ var getSelectClass = function (bookItem, selectedIds) {
 }
 
 module.exports = {
-  getDisabled: getDisabled,
+  deleteDisabled: deleteDisabled,
+  renameDisabled: renameDisabled,
+  toppingDisabled: toppingDisabled,
+  isTopping: isTopping,
   getSelectClass: getSelectClass,
 };

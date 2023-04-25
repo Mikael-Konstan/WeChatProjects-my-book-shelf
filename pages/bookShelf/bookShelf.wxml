@@ -3,15 +3,28 @@
 
 <view class="book-shelf">
   <view class="book-container">
-    <!-- 书籍列表 -->
-    <view class="book-item" wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index" data-bookItem="{{bookItem}}" data-index="{{index}}" bindtap="toDetail" bindlongpress="bindLongPress">
-      <view class="book-back-ground">
-        <image class="book-back-ground-img" src="{{!bookItem.imgSrc ? img.book : bookItem.imgSrc}}" />
-        <text class="book-name-more">{{bookItem.rename || bookItem.name}}</text>
-        <icon class="{{tools.getSelectClass(bookItem, selectedIds)}}" wx:if="{{settingFlag}}" />
+    <!-- 置顶书籍列表 -->
+    <block wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index">
+      <view class="book-item" wx:if="{{tools.isTopping(bookItem, toppingIds)}}" data-bookItem="{{bookItem}}" data-index="{{index}}" bindtap="toDetail" bindlongpress="bindLongPress">
+        <view class="book-back-ground">
+          <image class="book-back-ground-img" src="{{!bookItem.imgSrc ? img.book : bookItem.imgSrc}}" />
+          <text class="book-name-more">{{bookItem.rename || bookItem.name}}</text>
+          <icon class="{{tools.getSelectClass(bookItem, selectedIds)}}" wx:if="{{settingFlag}}" />
+        </view>
+        <view class="book-name">{{bookItem.rename || bookItem.name}}</view>
       </view>
-      <view class="book-name">{{bookItem.rename || bookItem.name}}</view>
-    </view>
+    </block>
+    <!-- 书籍列表 -->
+    <block wx:for="{{tempFiles}}" wx:for-item="bookItem" wx:key="index">
+      <view class="book-item" wx:if="{{!tools.isTopping(bookItem, toppingIds)}}" data-bookItem="{{bookItem}}" data-index="{{index}}" bindtap="toDetail" bindlongpress="bindLongPress">
+        <view class="book-back-ground">
+          <image class="book-back-ground-img" src="{{!bookItem.imgSrc ? img.book : bookItem.imgSrc}}" />
+          <text class="book-name-more">{{bookItem.rename || bookItem.name}}</text>
+          <icon class="{{tools.getSelectClass(bookItem, selectedIds)}}" wx:if="{{settingFlag}}" />
+        </view>
+        <view class="book-name">{{bookItem.rename || bookItem.name}}</view>
+      </view>
+    </block>
     <!-- 添加书籍 -->
     <view class="book-item" bindtap="chooseFile">
       <view class="book-back-ground addNewBook">
@@ -24,9 +37,10 @@
   <view animation="{{settingAnimation}}" class="setting-box">
     <!-- 设置tab -->
     <view class="setting-container">
-      <view catchtap="handleDelete">删除</view>
-      <view catchtap="handleRename" class="{{tools.getDisabled(selectedIds)}}">重命名</view>
-      <!-- <view>取消置顶</view> -->
+      <view catchtap="handleDelete" class="{{tools.deleteDisabled(selectedIds)}}">删除</view>
+      <view catchtap="handleRename" class="{{tools.renameDisabled(selectedIds)}}">重命名</view>
+      <view catchtap="handleToppingToggle" class="{{tools.toppingDisabled(selectedIds, toppingIds, true)}}" data-topping="true">置顶</view>
+      <view catchtap="handleToppingToggle" class="{{tools.toppingDisabled(selectedIds, toppingIds, false)}}" data-topping="false">取消置顶</view>
       <view catchtap="handleHideSetting">完成</view>
     </view>
   </view>

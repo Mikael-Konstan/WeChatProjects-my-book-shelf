@@ -4,7 +4,9 @@ import {
   IIntroBookShelfData,
   File,
 } from './../../utils/types';
-
+import {
+  storageKey,
+} from './../../utils/config';
 import {
   book,
 } from './../../utils/base64';
@@ -23,18 +25,29 @@ Page<IIntroBookShelfData, IIntroPage>({
       book,
     },
     selectedIds: [],
+    toppingIds: [],
   },
   onLoad() {
     this.getHistoryFile();
+    this.getToppingFile();
   },
   // 获取历史文件
   getHistoryFile() {
-    const tempFilesStr = wx.getStorageSync('tempFiles');
+    const tempFilesStr = wx.getStorageSync(storageKey.FILES);
     if (!tempFilesStr) return;
-    console.log("tempFilesStr", tempFilesStr);
+    // console.log("tempFilesStr", tempFilesStr);
     const tempFiles = JSON.parse(tempFilesStr) || [];
     console.log(tempFiles);
     this.setData({ tempFiles });
+  },
+  // 获取置顶文件
+  getToppingFile() {
+    const toppingIdsStr = wx.getStorageSync(storageKey.TOPPING);
+    if (!toppingIdsStr) return;
+    // console.log("toppingIdsStr", toppingIdsStr);
+    const toppingIds = JSON.parse(toppingIdsStr) || [];
+    console.log(toppingIds);
+    this.setData({ toppingIds });
   },
   // 选择文件
   chooseFile() {
@@ -56,7 +69,15 @@ Page<IIntroBookShelfData, IIntroPage>({
   // 更新文件列表 
   updateFiles(tempFiles: File[]) {
     this.setData({ tempFiles });
-    wx.setStorageSync('tempFiles', JSON.stringify(tempFiles));
+    wx.setStorageSync(storageKey.FILES, JSON.stringify(tempFiles));
+  },
+  // 更新置顶列表
+  updateTopping(ToppingIds?: string[]) {
+    const toppingIds = (ToppingIds || this.data.toppingIds).filter(toppingId => {
+      return this.data.tempFiles.some(tempFile => tempFile.id === toppingId);
+    });
+    this.setData({ toppingIds });
+    wx.setStorageSync(storageKey.TOPPING, JSON.stringify(toppingIds));
   },
   // 去详情
   toDetail(e: any) {
@@ -95,7 +116,7 @@ Page<IIntroBookShelfData, IIntroPage>({
     if (idx === -1) {
       selectedIds.push(id);
     } else {
-      selectedIds.splice(idx , 1);
+      selectedIds.splice(idx, 1);
     }
     this.setData({ selectedIds });
   },
@@ -126,6 +147,7 @@ Page<IIntroBookShelfData, IIntroPage>({
       return Array.prototype.includes.call(this.data.selectedIds, i.id);
     });
     this.updateFiles(tempFiles);
+    this.updateTopping();
   },
   /**
    * 设置显隐
@@ -176,5 +198,23 @@ Page<IIntroBookShelfData, IIntroPage>({
         }
       }
     })
+  },
+  /**
+   * 置顶、取消置顶
+   * @param e 
+   */
+  handleToppingToggle(e: any) {
+    const topping = e.currentTarget.dataset.topping;
+    const toppingFlag = topping === "true";
+    let toppingIds = this.data.toppingIds;
+    if (toppingFlag) {
+      toppingIds = Array.prototype.concat([], this.data.toppingIds, this.data.selectedIds);
+      toppingIds = Array.from(new Set(toppingIds));
+    } else {
+      toppingIds = this.data.toppingIds.filter(id => {
+        return !Array.prototype.includes.call(this.data.selectedIds, id);
+      });
+    };
+    this.updateTopping(toppingIds);
   }
 })

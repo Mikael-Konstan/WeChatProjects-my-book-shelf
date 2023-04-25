@@ -69,6 +69,11 @@ const defaultReadInfo = {
   regIdx: 0,
 };
 
+enum storageKey {
+  FILES = "tempFiles",
+  TOPPING = "topping",
+}
+
 export {
   defaultSetting,
   colorTheme,
@@ -78,4 +83,5 @@ export {
   minRows,
   newChapterReg,
   defaultReadInfo,
+  storageKey,
 }

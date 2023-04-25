@@ -36,6 +36,7 @@ export interface IIntroBookShelfData extends Image {
   settingFlag: boolean;
   settingAnimation: WechatMiniprogram.Animation;
   selectedIds: string[];
+  toppingIds: string[];
 }
 
 export interface ColorThemeItem {
