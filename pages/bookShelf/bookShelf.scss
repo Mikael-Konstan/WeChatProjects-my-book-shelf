@@ -28,7 +28,7 @@
 
     .book-back-ground {
       margin: 0rpx auto 10rpx;
-      width: 24vw;
+      width: 26vw;
       height: 30vw;
       background-size: cover;
       background-repeat: no-repeat;
@@ -45,13 +45,13 @@
       }
 
       .book-name-more {
-        width: 15vw;
+        width: 19vw;
         height: 14vw;
         text-align: left;
         position: absolute;
         z-index: 2;
         top: 10rpx;
-        left: 7vw;
+        left: 5vw;
         font-size: 25rpx;
         word-break: break-all;
         overflow: hidden;
@@ -97,21 +97,22 @@
 
     .book-name {
       font-size: 24rpx;
-      width: 24vw;
+      width: 26vw;
       margin: 0 auto;
       text-align: left;
-      padding-left: 24rpx;
+      padding-left: 16rpx;
       word-break: break-all;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       position: relative;
+      box-sizing: border-box;
 
       .book-topping-icon {
         font-size: 24rpx;
         color: #E29C3A;
         position: absolute;
-        left: 32rpx;
+        left: 16rpx;
         bottom: 5rpx;
         z-index: 2;
       }
@@ -122,7 +123,7 @@
     }
 
     .book-name-topping {
-      padding-left: 54rpx;
+      padding-left: 42rpx;
     }
   }
 }
