@@ -1,0 +1,15 @@
+var getListFontColor = function (theme, curTheme, curChapter, index) {
+  var color = '';
+  if (index < curChapter) {
+    color = theme[curTheme].list_font;
+  } else if (index === curChapter) {
+    color = theme[curTheme].list_cur_font;
+  } else {
+    color = theme[curTheme].list_next_font;
+  }
+  return 'color: ' + color + ';';
+}
+
+module.exports = {
+  getListFontColor: getListFontColor,
+};

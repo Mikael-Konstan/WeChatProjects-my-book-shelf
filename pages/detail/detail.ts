@@ -337,18 +337,7 @@ Page<IIntroDetailData, IIntroPage>({
       listAnimation,
     });
     if (listFlag) {
-      // 往下显示八章 显示在中间
-      let curChapter = this.data.curChapter;
-      for (let i = 3; i > 0; i--) {
-        if (curChapter > 0) {
-          curChapter--
-        } else {
-          break;
-        }
-      }
-      this.setData({
-        listScrollIntoView: 'list' + curChapter,
-      });
+      this.handleListScrollCur();
     }
   },
   /**
@@ -366,6 +355,23 @@ Page<IIntroDetailData, IIntroPage>({
     const anchor = e.currentTarget.dataset.anchor;
     this.setData({
       listScrollIntoView: anchor,
+    });
+  },
+  /**
+   * 目录列表 锚点滚动到当前章节
+   */
+  handleListScrollCur() {
+    // 往下显示八章 显示在中间
+    let curChapter = this.data.curChapter;
+    for (let i = 3; i > 0; i--) {
+      if (curChapter > 0) {
+        curChapter--
+      } else {
+        break;
+      }
+    }
+    this.setData({
+      listScrollIntoView: 'list' + curChapter,
     });
   },
   /**
