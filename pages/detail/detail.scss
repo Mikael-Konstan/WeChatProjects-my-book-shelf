@@ -1,4 +1,18 @@
 /* pages/detail/detail.wxss */
+// 自定义导航栏
+.nav-bar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+
+  .nav-bar-content {
+    position: absolute;
+    width: 60%;
+    font-size: 14px;
+    padding-left: 14px;
+  }
+}
+
 .detail {
 
   // 正文

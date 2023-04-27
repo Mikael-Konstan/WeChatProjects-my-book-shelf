@@ -1,7 +1,8 @@
 // pages/detail/detail.ts
 import { TxtFileServices } from "./../../utils/txtFileServices";
-import SettingServ from './../../utils/settingServices';
+import settingServ from './../../utils/settingServices';
 import { ReadInfoServices } from './../../utils/readInfoServices';
+import { ReadInfo } from './../../utils/readInfoTypes';
 import {
   colorTheme,
   lineHeights,
@@ -9,7 +10,10 @@ import {
 import {
   IIntroPage,
   IIntroDetailData,
+  File,
 } from './../../utils/types';
+
+const app = getApp();
 
 Page<IIntroDetailData, IIntroPage>({
   /**
@@ -82,71 +86,13 @@ Page<IIntroDetailData, IIntroPage>({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(params) {
-    console.log('onLoad', params);
+  onLoad() {
+    console.log('onLoad');
     const eventChannel = this.getOpenerEventChannel();
-    eventChannel.on("bookItem", (data) => {
+    eventChannel.on("bookItem", (data: File) => {
       console.log(data);
-      // 查询本地 getStorageSync split + time
-      // 以文件time做标识
-      const { time, size } = data;
-      const fileDir = `/file_${time}_${size}`;
-      const splitPre = `/split_${time}_${size}_`;
-      const fileInfoField = splitPre + "fileInfo";
-      const readInfoServ = new ReadInfoServices(splitPre + "readInfo");
-      const readInfo = readInfoServ.getReadInfo();
-      const setting = SettingServ.getSetting();
-      const txtFileServ = new TxtFileServices({
-        fileDir,
-        splitPre,
-        fileInfoField,
-        regIdx: readInfo.regIdx,
-        updateProgress: (percent: number) => {
-          this.setData({ percent });
-        },
-        updateRegIdx: (regIdx: number) => {
-          readInfoServ.setReadInfo({ regIdx });
-        },
-      });
-      this.setData({
-        txtFileServ,
-        readInfoServ,
-        file: data,
-        ...readInfo,
-        ...setting,
-      });
-
-      // 回到上次阅读位置
-      setTimeout(() => {
-        this.setData({
-          scrollTop: readInfo.scrollTop,
-        });
-      }, 300);
-
-      const subFileStr = wx.getStorageSync(fileInfoField);
-      if (!!subFileStr) {
-        const subFile = JSON.parse(subFileStr);
-        // console.log(curChapter, subFileStr);
-        this.setData({ subFile });
-        this.jumpChapter(readInfo.curChapter);
-        this.updatePercent();
-      } else {
-        this.fileResolution();
-      }
-
-      // 获取页面高度
-      const query = wx.createSelectorQuery()
-      query.select('#detail').boundingClientRect((res) => {
-        this.setData({
-          pageHeight: res.height,
-        })
-      })
-      query.select('#render-line-height').boundingClientRect((res) => {
-        this.setData({
-          renderLineHeight: res.height,
-        })
-      })
-      query.exec();
+      this.dataInit(data);
+      this.getHeightOfScroll();
     });
   },
   /**
@@ -155,6 +101,88 @@ Page<IIntroDetailData, IIntroPage>({
   onUnload() {
     console.log('onUnload');
     this.data.readInfoServ?.setReadInfo({ scrollTop: this.data.scrollTop });
+  },
+  /**
+   * data & services初始化
+   * @param data any
+   */
+  dataInit(data: File) {
+    // 以文件time & size做标识
+    const { time, size } = data;
+    const fileDir = `/file_${time}_${size}`;
+    const splitPre = `/split_${time}_${size}_`;
+    const fileInfoField = splitPre + "fileInfo";
+    const readInfoServ = new ReadInfoServices(splitPre + "readInfo");
+    // 阅读信息(进度)
+    const readInfo = readInfoServ.getReadInfo();
+    // 阅读设置(主题)
+    const setting = settingServ.getSetting();
+    // 文件服务(文件读取、分块)
+    const txtFileServ = new TxtFileServices({
+      fileDir,
+      splitPre,
+      fileInfoField,
+      regIdx: readInfo.regIdx,
+      updateProgress: (percent: number) => {
+        this.setData({ percent });
+      },
+      updateRegIdx: (regIdx: number) => {
+        readInfoServ.setReadInfo({ regIdx });
+      },
+    });
+
+    // 自定义导航栏大小、位置计算所需数据
+    console.log(app.globalData);
+    
+    this.setData({
+      txtFileServ,
+      readInfoServ,
+      file: data,
+      ...readInfo,
+      ...setting,
+      globalData: app.globalData,
+    });
+
+    this.readInit(fileInfoField, readInfo);
+  },
+  /**
+   * 阅读内容init
+   */
+  readInit(fileInfoField: string, readInfo: ReadInfo) {
+    const subFileStr = wx.getStorageSync(fileInfoField);
+    if (!!subFileStr) {
+      const subFile = JSON.parse(subFileStr);
+      // console.log(curChapter, subFileStr);
+      this.setData({ subFile });
+      this.jumpChapter(readInfo.curChapter);
+      this.updatePercent();
+    } else {
+      this.fileResolution();
+    }
+
+    // 页面滚动到上次阅读位置
+    setTimeout(() => {
+      this.setData({
+        scrollTop: readInfo.scrollTop,
+      });
+    }, 300);
+  },
+  /**
+   * 获取页面内容高度、文字行高 点击滚动翻页所用
+   */
+  getHeightOfScroll() {
+    const query = wx.createSelectorQuery()
+    query.select('#detail').boundingClientRect((res) => {
+      this.setData({
+        pageHeight: res.height,
+      })
+    })
+    query.select('#render-line-height').boundingClientRect((res) => {
+      this.setData({
+        renderLineHeight: res.height,
+      })
+    })
+    query.exec();
   },
   /**
    * 文件解析
@@ -195,9 +223,7 @@ Page<IIntroDetailData, IIntroPage>({
           duration: 3000,
           mask: true,
           fail: () => {
-            wx.navigateTo({
-              url: '../bookShelf/bookShelf',
-            })
+            wx.navigateBack({ delta: 1 });
           }
         })
 
@@ -505,7 +531,7 @@ Page<IIntroDetailData, IIntroPage>({
   },
   // 更新设置
   updateSetting() {
-    SettingServ.setSetting({
+    settingServ.setSetting({
       oldTheme: this.data.oldTheme,
       curTheme: this.data.curTheme,
       night: this.data.night,
@@ -567,5 +593,9 @@ Page<IIntroDetailData, IIntroPage>({
 
     const num = parseInt(scrollTop / this.data.renderLineHeight + '');
     return this.data.renderLineHeight * num;
+  },
+  // 返回
+  handleBack() {
+    wx.navigateBack({ delta: 1 });
   },
 });

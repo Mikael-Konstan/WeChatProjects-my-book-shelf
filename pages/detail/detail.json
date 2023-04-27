@@ -1,4 +1,5 @@
 {
   "navigationBarTitleText": "my book",
+  "navigationStyle": "custom",
   "usingComponents": {}
 }
