@@ -40,11 +40,26 @@
   <view animation="{{settingAnimation}}" class="setting-box">
     <!-- 设置tab -->
     <view class="setting-container">
-      <view catchtap="handleDelete" class="{{tools.deleteDisabled(selectedIds)}}">删除</view>
-      <view catchtap="handleRename" class="{{tools.renameDisabled(selectedIds)}}">重命名</view>
-      <view catchtap="handleToppingToggle" class="{{tools.toppingDisabled(selectedIds, toppingIds, true)}}" data-topping="true">置顶</view>
-      <view catchtap="handleToppingToggle" class="{{tools.toppingDisabled(selectedIds, toppingIds, false)}}" data-topping="false">取消置顶</view>
-      <view catchtap="handleHideSetting">完成</view>
+      <view catchtap="handleDelete" class="{{tools.deleteDisabled(selectedIds)}}">
+        <icon class="iconfont icon-delete" />
+        <view>删除</view>
+      </view>
+      <view catchtap="handleRename" class="{{tools.renameDisabled(selectedIds)}}">
+        <icon class="iconfont icon-rename" />
+        <view>重命名</view>
+      </view>
+      <view catchtap="handleToppingToggle" class="{{tools.toppingDisabled(selectedIds, toppingIds, true)}}" data-topping="true">
+        <icon class="iconfont icon-topping" />
+        <view>置顶</view>
+      </view>
+      <view catchtap="handleToppingToggle" class="{{tools.toppingDisabled(selectedIds, toppingIds, false)}}" data-topping="false">
+        <icon class="iconfont icon-untopping" />
+        <view>取消置顶</view>
+      </view>
+      <view catchtap="handleHideSetting">
+        <icon class="iconfont icon-down" />
+        <view>完成</view>
+      </view>
     </view>
   </view>
 </view>

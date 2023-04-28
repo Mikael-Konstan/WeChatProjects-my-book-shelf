@@ -143,6 +143,38 @@
     align-items: center;
     height: 60rpx;
     padding: 20rpx 32rpx 60rpx;
+    font-size: 20rpx;
+    color: #2C2E2D;
+    text-align: center;
+
+    .icon-delete,
+    .icon-rename,
+    .icon-topping,
+    .icon-untopping,
+    .icon-down {
+      font-size: 48rpx;
+      margin-bottom: 8rpx;
+    }
+
+    .icon-delete::before {
+      content: "\e605";
+    }
+
+    .icon-rename::before {
+      content: "\e608";
+    }
+
+    .icon-topping::before {
+      content: "\e609";
+    }
+
+    .icon-untopping::before {
+      content: "\e60a";
+    }
+
+    .icon-down::before {
+      content: "\e60d";
+    }
   }
 }
 
