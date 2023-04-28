@@ -37,7 +37,7 @@
   </scroll-view>
 
   <!-- 目录弹窗 -->
-  <view animation="{{listAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box">
+  <view animation="{{listAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box" style="margin-top:{{globalData.navBarHeight}}px;">
     <view class="list-real-box">
       <view class="list-header" style="color: {{theme[curTheme].list_cur_font}};background-color: {{theme[curTheme].text_bgc}};">
         <view class="file-name">{{file.rename || file.name}}</view>

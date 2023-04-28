@@ -65,15 +65,15 @@
   // 目录
   .list-box {
     width: 100vw;
-    height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, .3);
 
     .list-real-box {
       width: 70vw;
-      height: 100vh;
+      height: 100%;
       box-shadow: 2px 0 8px 0 rgba(0, 0, 0, .1);
 
       .list-header {
