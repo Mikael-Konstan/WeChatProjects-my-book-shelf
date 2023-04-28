@@ -52,10 +52,10 @@
       </view>
       <view id="list-item-bottom"></view>
     </scroll-view>
-    <view class="list-footer" style="color: {{theme[curTheme].list_font}};background-color: {{theme[curTheme].text_bgc}};">
-      <view data-anchor="list-item-top" catchtap="handleListScroll">滑到顶部</view>
-      <view catchtap="handleListScrollCur">当前章节</view>
-      <view data-anchor="list-item-bottom" catchtap="handleListScroll">滑到底部</view>
+    <view class="list-footer" style="color: {{theme[curTheme].list_cur_font}};background-color: {{theme[curTheme].text_bgc}};">
+      <icon class="iconfont scrollToTop" catchtap="handleListScroll" data-anchor="list-item-top" />
+      <icon class="iconfont scrollToCurrent" catchtap="handleListScrollCur" />
+      <icon class="iconfont scrollToBottom" catchtap="handleListScroll" data-anchor="list-item-bottom" />
     </view>
   </view>
 

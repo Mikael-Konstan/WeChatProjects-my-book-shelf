@@ -125,6 +125,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      .scrollToTop,
+      .scrollToBottom,
+      .scrollToCurrent {
+        font-size: 48rpx;
+      }
+
+      .scrollToTop::before {
+        content: "\e603";
+      }
+
+      .scrollToCurrent::before {
+        content: "\e602";
+      }
+
+      .scrollToBottom::before {
+        content: "\e604";
+      }
     }
   }
 
