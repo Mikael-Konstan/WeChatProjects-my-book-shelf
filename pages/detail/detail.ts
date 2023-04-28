@@ -44,6 +44,11 @@ Page<IIntroDetailData, IIntroPage>({
     // 阅读进度百分比
     readPercent: 0,
     scrollTop: 0,
+    listContainerAnimation: wx.createAnimation({
+      duration: 300,
+      timingFunction: "linear",
+      delay: 0,
+    }).opacity(0).translateX(-wx.getWindowInfo().screenWidth).step(),
     listAnimation: wx.createAnimation({
       duration: 300,
       timingFunction: "linear",
@@ -133,7 +138,7 @@ Page<IIntroDetailData, IIntroPage>({
 
     // 自定义导航栏大小、位置计算所需数据
     console.log(app.globalData);
-    
+
     this.setData({
       txtFileServ,
       readInfoServ,
@@ -354,13 +359,23 @@ Page<IIntroDetailData, IIntroPage>({
       timingFunction: "linear",
       delay: 0,
     });
+    const listContainerAnimation = wx.createAnimation({
+      duration: 300,
+      timingFunction: "linear",
+      delay: 0,
+    });
     if (listFlag) {
       listAnimation.translateX(0).step();
+      listContainerAnimation.translateX(0).step();
+      listContainerAnimation.opacity(0.3).step();
     } else {
       listAnimation.translateX(-wx.getWindowInfo().screenWidth).step();
+      listContainerAnimation.opacity(0).step();
+      listContainerAnimation.translateX(-wx.getWindowInfo().screenWidth).step();
     }
     this.setData({
       listAnimation,
+      listContainerAnimation,
     });
     if (listFlag) {
       this.handleListScrollCur();

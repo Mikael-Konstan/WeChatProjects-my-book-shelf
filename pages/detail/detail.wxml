@@ -36,24 +36,26 @@
     </view>
   </scroll-view>
 
-  <!-- 目录弹窗 -->
-  <view animation="{{listAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box" style="margin-top:{{globalData.navBarHeight}}px;">
-    <view class="list-real-box">
-      <view class="list-header" style="color: {{theme[curTheme].list_cur_font}};background-color: {{theme[curTheme].text_bgc}};">
-        <view class="file-name">{{file.rename || file.name}}</view>
+  <!-- 目录弹窗 - 背景 -->
+  <view animation="{{listContainerAnimation}}" catchtap='handleListToggle' data-status="close" class="list-box" style="margin-top:{{globalData.navBarHeight}}px;">
+    listContainer
+  </view>
+  <!-- 目录弹窗 - 内容 -->
+  <view animation="{{listAnimation}}" class="list-real-box" style="margin-top:{{globalData.navBarHeight}}px;">
+    <view class="list-header" style="color: {{theme[curTheme].list_cur_font}};background-color: {{theme[curTheme].text_bgc}};">
+      <view class="file-name">{{file.rename || file.name}}</view>
+    </view>
+    <scroll-view class="list-container" scroll-y="true" scroll-into-view="{{listScrollIntoView}}" style="background-color: {{theme[curTheme].list_bgc}};">
+      <view id="list-item-top"></view>
+      <view class="list-item" wx:for="{{subFile}}" wx:key="index" data-chapter="{{index}}" bindtap='handleJumpChapter' id="{{'list' + index}}" style="{{ tools.getListFontColor(theme, curTheme, curChapter, index) }}">
+        {{item.chapterName}}
       </view>
-      <scroll-view class="list-container" scroll-y="true" scroll-into-view="{{listScrollIntoView}}" style="background-color: {{theme[curTheme].list_bgc}};">
-        <view id="list-item-top"></view>
-        <view class="list-item" wx:for="{{subFile}}" wx:key="index" data-chapter="{{index}}" bindtap='handleJumpChapter' id="{{'list' + index}}" style="{{ tools.getListFontColor(theme, curTheme, curChapter, index) }}">
-          {{item.chapterName}}
-        </view>
-        <view id="list-item-bottom"></view>
-      </scroll-view>
-      <view class="list-footer" style="color: {{theme[curTheme].list_font}};background-color: {{theme[curTheme].text_bgc}};">
-        <view data-anchor="list-item-top" catchtap="handleListScroll">滑到顶部</view>
-        <view catchtap="handleListScrollCur">当前章节</view>
-        <view data-anchor="list-item-bottom" catchtap="handleListScroll">滑到底部</view>
-      </view>
+      <view id="list-item-bottom"></view>
+    </scroll-view>
+    <view class="list-footer" style="color: {{theme[curTheme].list_font}};background-color: {{theme[curTheme].text_bgc}};">
+      <view data-anchor="list-item-top" catchtap="handleListScroll">滑到顶部</view>
+      <view catchtap="handleListScrollCur">当前章节</view>
+      <view data-anchor="list-item-bottom" catchtap="handleListScroll">滑到底部</view>
     </view>
   </view>
 

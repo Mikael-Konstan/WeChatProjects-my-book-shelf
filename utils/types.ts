@@ -61,6 +61,7 @@ export interface IIntroDetailData extends Image {
   chapterArr: string[][];
   readPercent: number;
   scrollTop: number;
+  listContainerAnimation: WechatMiniprogram.Animation;
   listAnimation: WechatMiniprogram.Animation;
   listScrollIntoView: string;
   theme: ColorThemeItem[];
