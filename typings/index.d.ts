@@ -6,6 +6,7 @@ interface IAppOption {
     navBarHeight: number,
     menuRight: number,
     menuBotton: number,
+    menuWidth: number,
     menuHeight: number,
   }
   userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,

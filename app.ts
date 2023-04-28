@@ -4,6 +4,7 @@ App<IAppOption>({
     navBarHeight: 0, // 导航栏高度
     menuRight: 0, // 胶囊距右方间距（方保持左、右间距一致）
     menuBotton: 0, // 胶囊距底部间距（保持底部间距一致）
+    menuWidth: 0, // 胶囊距左方间距（自定义内容最大宽度）
     menuHeight: 0, // 胶囊高度（自定义内容可与胶囊高度保证一致）
   },
   onLaunch() {
@@ -30,6 +31,7 @@ App<IAppOption>({
       this.globalData.navBarHeight = systemInfo.statusBarHeight + 44;
       this.globalData.menuRight = systemInfo.screenWidth - menuButtonInfo.right;
       this.globalData.menuBotton = menuButtonInfo.top - systemInfo.statusBarHeight;
+      this.globalData.menuWidth = menuButtonInfo.left - this.globalData.menuRight;
       this.globalData.menuHeight = menuButtonInfo.height;
     }
 

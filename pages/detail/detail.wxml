@@ -8,9 +8,10 @@
 
 <!-- 自定义navigation-bar -->
 <view class="nav-bar" style="height:{{globalData.navBarHeight}}px;background-color: {{theme[curTheme].list_bgc}};color: {{theme[curTheme].text_font}};">
-    <view class="nav-bar-content" style="height:{{globalData.menuHeight}}px; min-height:{{globalData.menuHeight}}px; line-height:{{globalData.menuHeight}}px; left:{{globalData.menuRight}}px; bottom:{{globalData.menuBotton}}px;" bindtap="handleBack">
-      {{ "<" }}  {{subFile[curChapter].chapterName}}
-    </view>
+  <view class="nav-bar-content" style="width:{{globalData.menuWidth}}px;min-width:{{globalData.menuWidth}}px;max-width:{{globalData.menuWidth}}px;height:{{globalData.menuHeight}}px;min-height:{{globalData.menuHeight}}px;line-height:{{globalData.menuHeight}}px;left:{{globalData.menuRight}}px;bottom:{{globalData.menuBotton}}px;" bindtap="handleBack">
+    <icon class="iconfont nav-bar-back" />
+    {{subFile[curChapter].chapterName}}
+  </view>
 </view>
 
 <!-- 正文 -->

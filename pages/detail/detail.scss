@@ -7,9 +7,23 @@
 
   .nav-bar-content {
     position: absolute;
-    width: 60%;
-    font-size: 14px;
+    font-size: 12px;
     padding-left: 14px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    word-break: break-all;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    .nav-bar-back {
+      font-size: 12px;
+      margin-right: 10rpx;
+    }
+
+    .nav-bar-back::before {
+      content: "\e606";
+    }
   }
 }
 
