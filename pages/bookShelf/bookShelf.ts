@@ -27,6 +27,14 @@ Page<IIntroBookShelfData, IIntroPage>({
     selectedIds: [],
     toppingIds: [],
   },
+  onShow() {
+    if (typeof this.getTabBar === 'function') {
+      // console.log("onShow 我的书架 0");
+      (this.getTabBar())?.setData({
+        selected: 0,
+      })
+    };
+  },
   onLoad() {
     this.getHistoryFile();
     this.getToppingFile();
@@ -98,16 +106,14 @@ Page<IIntroBookShelfData, IIntroPage>({
   // 长按事件 显示设置栏
   bindLongPress(e: any) {
     console.log('bindLongPress');
-    wx.hideTabBar({
-      success: () => {
-        // console.log('success');
-        if (!this.data.settingFlag) {
-          const id = e.currentTarget.dataset.bookitem.id;
-          this.settingToggle(this.data.settingFlag);
-          this.selectedToggle(id);
-        }
-      }
-    });
+    if (typeof this.getTabBar === 'function') {
+      (this.getTabBar())?.tabBarToggle(false);
+    };
+    if (!this.data.settingFlag) {
+      const id = e.currentTarget.dataset.bookitem.id;
+      this.settingToggle(this.data.settingFlag);
+      this.selectedToggle(id);
+    }
   },
   // 书籍选中Toggle
   selectedToggle(id: string) {
@@ -131,13 +137,9 @@ Page<IIntroBookShelfData, IIntroPage>({
    */
   handleHideSetting() {
     this.settingToggle(this.data.settingFlag);
-    setTimeout(() => {
-      wx.showTabBar({
-        fail: () => {
-          this.settingToggle(this.data.settingFlag);
-        }
-      });
-    }, 300);
+    if (typeof this.getTabBar === 'function') {
+      (this.getTabBar())?.tabBarToggle(true);
+    };
   },
   /**
    * 删除选中书籍

@@ -5,34 +5,39 @@
   left: 0;
   right: 0;
   height: 130rpx;
+  box-shadow: -4rpx 0 2rpx 0 #000000;
   background: white;
+  display: flex;
   padding-bottom: env(safe-area-inset-bottom);
-}
 
-.tab-bar-border {
-  border-top: 1rpx solid #000000;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1rpx;
-}
-.tab-bar-container {
-  height: 129rpx;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.tab-bar-item {
-  height: 108rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 56rpx;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-.tab-bar-item cover-image {
-  width: 64rpx;
-  height: 64rpx;
-}
+  .tab-bar-item {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20rpx;
 
+    .icon-bookShelf,
+    .icon-my {
+      font-size: 48rpx;
+    }
+
+    .icon-bookShelf::before {
+      content: "\e612";
+    }
+
+    .icon-my::before {
+      content: "\e60e";
+    }
+  }
+}

@@ -7,7 +7,13 @@ Page({
     motto: 'Book Shelf',
   },
   onShow() {
-    console.log('onShow');
+    if (typeof this.getTabBar === 'function' &&
+      this.getTabBar()) {
+      // console.log("onShow 首页 1");
+      this.getTabBar().setData({
+        selected: 1,
+      })
+    };
   },
   // 事件处理函数
   toLogs() {

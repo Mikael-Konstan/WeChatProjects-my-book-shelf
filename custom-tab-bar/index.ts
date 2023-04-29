@@ -10,22 +10,30 @@ Component({
    */
   data: {
     selected: 0,
-    "color": "#515151",
-    "selectedColor": "#09f",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "black",
+    color: "#515151",
+    selectedColor: "#09f",
     list: [{
-      "pagePath": "/pages/bookShelf/bookShelf",
-      "text": "书架",
-      "iconPath": "/static/bookShelf.png",
-      "selectedIconPath": "/static/bookShelf_active.png"
+      pagePath: "/pages/bookShelf/bookShelf",
+      text: "书架",
+      icon: "iconfont icon-bookShelf",
+      iconPath: "/static/bookShelf.png",
+      selectedIconPath: "/static/bookShelf_active.png"
     },
     {
-      "pagePath": "/pages/index/index",
-      "text": "我的",
-      "iconPath": "/static/my.png",
-      "selectedIconPath": "/static/my_active.png"
-    }]
+      pagePath: "/pages/index/index",
+      text: "我的",
+      icon: "iconfont icon-my",
+      iconPath: "/static/my.png",
+      selectedIconPath: "/static/my_active.png"
+    }
+    ],
+    // tabBar显隐flag
+    tabBarFlag: false,
+    tabBarAnimation: wx.createAnimation({
+      duration: 300,
+      timingFunction: "linear",
+      delay: 0,
+    }).translateY(0).step(),
   },
 
   /**
@@ -34,13 +42,29 @@ Component({
   methods: {
     switchTab(e: any) {
       console.log("执行跳转", e);
-      // TOFIX 跳转时偶现重载
       const dataset = e.currentTarget.dataset;
-      this.setData({ selected: dataset.index });
       wx.switchTab({
         url: dataset.path,
       });
-      console.log(dataset);
-    }
+    },
+    /**
+     * tabBar显隐
+     */
+    tabBarToggle(tabBarFlag: boolean) {
+      const tabBarAnimation = wx.createAnimation({
+        duration: 300,
+        timingFunction: "linear",
+        delay: 0,
+      });
+      if (tabBarFlag) {
+        tabBarAnimation.translateY(0).step();
+      } else {
+        tabBarAnimation.translateY(150).step();
+      }
+      this.setData({
+        tabBarFlag: !tabBarFlag,
+        tabBarAnimation,
+      });
+    },
   }
 })
