@@ -82,9 +82,19 @@
     .addNewBook {
       color: #999999;
       border: 1px solid #EBEBEB;
-      text-align: center;
       border-radius: 12rpx;
       box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .icon-add-book {
+        font-size: 64rpx;
+      }
+
+      .icon-add-book::before {
+        content: "\e613";
+      }
 
       .add-book-icon {
         font-size: 100rpx;

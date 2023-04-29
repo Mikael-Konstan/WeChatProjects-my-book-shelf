@@ -31,8 +31,9 @@
     <!-- 添加书籍 -->
     <view class="book-item" bindtap="chooseFile">
       <view class="book-back-ground addNewBook">
-        <view class="add-book-icon">+</view>
-        <view class="add-book-title">添加小说</view>
+        <icon class="iconfont icon-add-book" />
+        <!-- <view class="add-book-icon">+</view>
+        <view class="add-book-title">添加小说</view> -->
       </view>
     </view>
   </view>
