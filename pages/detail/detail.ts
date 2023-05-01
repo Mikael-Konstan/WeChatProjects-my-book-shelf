@@ -179,14 +179,14 @@ Page<IIntroDetailData, IIntroPage>({
     const query = wx.createSelectorQuery()
     query.select('#detail').boundingClientRect((res) => {
       this.setData({
-        pageHeight: res.height,
+        pageHeight: res.height - res.top,
       })
-    })
+    });
     query.select('#render-line-height').boundingClientRect((res) => {
       this.setData({
         renderLineHeight: res.height,
       })
-    })
+    });
     query.exec();
   },
   /**
@@ -231,7 +231,6 @@ Page<IIntroDetailData, IIntroPage>({
             wx.navigateBack({ delta: 1 });
           }
         })
-
       }
     );
   },
@@ -248,8 +247,12 @@ Page<IIntroDetailData, IIntroPage>({
           console.log(res);
           this.setData({
             ...res,
-            scrollTop: 0,
           });
+          setTimeout(() =>{
+            this.setData({
+              scrollTop: 0,
+            });
+          }, 0);
         },
         (err) => {
           console.error(err);
@@ -267,7 +270,7 @@ Page<IIntroDetailData, IIntroPage>({
       this.setData({
         scrollTop: e.detail.scrollTop,
       });
-    }, 600);
+    }, 300);
     this.setData({
       timer,
     });
@@ -332,7 +335,7 @@ Page<IIntroDetailData, IIntroPage>({
    */
   updateCurChapter() {
     this.data.readInfoServ?.setReadInfo({
-      curChapter: this.data.curChapter
+      curChapter: this.data.curChapter,
     });
     wx.setNavigationBarTitle({
       title: this.data.subFile[this.data.curChapter].chapterName,
@@ -406,7 +409,7 @@ Page<IIntroDetailData, IIntroPage>({
     let curChapter = this.data.curChapter;
     for (let i = 3; i > 0; i--) {
       if (curChapter > 0) {
-        curChapter--
+        curChapter--;
       } else {
         break;
       }
