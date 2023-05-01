@@ -146,7 +146,7 @@ Page<IIntroBookShelfData, IIntroPage>({
    */
   handleDelete() {
     const tempFiles = this.data.tempFiles.filter(i => {
-      return Array.prototype.includes.call(this.data.selectedIds, i.id);
+      return !Array.prototype.includes.call(this.data.selectedIds, i.id);
     });
     this.updateFiles(tempFiles);
     this.updateTopping();
