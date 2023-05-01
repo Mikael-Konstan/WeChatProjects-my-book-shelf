@@ -179,7 +179,7 @@ Page<IIntroDetailData, IIntroPage>({
     const query = wx.createSelectorQuery()
     query.select('#detail').boundingClientRect((res) => {
       this.setData({
-        pageHeight: res.height - res.top,
+        pageHeight: res.height,
       })
     });
     query.select('#render-line-height').boundingClientRect((res) => {
