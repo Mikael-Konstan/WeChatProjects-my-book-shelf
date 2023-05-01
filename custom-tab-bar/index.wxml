@@ -1,7 +1,7 @@
 <!--custom-tab-bar/index.wxml-->
 <view class="tab-bar" animation="{{tabBarAnimation}}">
   <view wx:for="{{list}}" wx:key="index" class="tab-bar-item" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab" style="color: {{selected === index ? selectedColor : color}}">
-    <icon class="{{item.icon}}" />
+    <icon class="{{selected === index ? item.selectedIcon : item.icon}}" />
     <view>{{item.text}}</view>
   </view>
 </view>

@@ -16,6 +16,7 @@ Component({
       pagePath: "/pages/bookShelf/bookShelf",
       text: "书架",
       icon: "iconfont icon-bookShelf",
+      selectedIcon: "iconfont icon-bookShelf-selected",
       iconPath: "/static/bookShelf.png",
       selectedIconPath: "/static/bookShelf_active.png"
     },
@@ -23,6 +24,7 @@ Component({
       pagePath: "/pages/index/index",
       text: "我的",
       icon: "iconfont icon-my",
+      selectedIcon: "iconfont icon-my-selected",
       iconPath: "/static/my.png",
       selectedIconPath: "/static/my_active.png"
     }

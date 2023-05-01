@@ -28,16 +28,26 @@
     font-size: 20rpx;
 
     .icon-bookShelf,
-    .icon-my {
+    .icon-bookShelf-selected,
+    .icon-my,
+    .icon-my-selected {
       font-size: 48rpx;
     }
 
     .icon-bookShelf::before {
+      content: "\e611";
+    }
+
+    .icon-bookShelf-selected::before {
       content: "\e612";
     }
 
     .icon-my::before {
-      content: "\e60e";
+      content: "\e60f";
+    }
+
+    .icon-my-selected::before {
+      content: "\e610";
     }
   }
 }
