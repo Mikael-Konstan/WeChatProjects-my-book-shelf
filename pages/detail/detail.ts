@@ -44,6 +44,7 @@ Page<IIntroDetailData, IIntroPage>({
     // 阅读进度百分比
     readPercent: 0,
     scrollTop: 0,
+    scrollTopLock: false,
     listContainerAnimation: wx.createAnimation({
       duration: 300,
       timingFunction: "linear",
@@ -159,18 +160,11 @@ Page<IIntroDetailData, IIntroPage>({
       const subFile = JSON.parse(subFileStr);
       // console.log(curChapter, subFileStr);
       this.setData({ subFile });
-      this.jumpChapter(readInfo.curChapter);
+      this.jumpChapter(readInfo.curChapter, readInfo.scrollTop);
       this.updatePercent();
     } else {
       this.fileResolution();
     }
-
-    // 页面滚动到上次阅读位置
-    setTimeout(() => {
-      this.setData({
-        scrollTop: readInfo.scrollTop,
-      });
-    }, 300);
   },
   /**
    * 获取页面内容高度、文字行高 点击滚动翻页所用
@@ -236,8 +230,9 @@ Page<IIntroDetailData, IIntroPage>({
   },
   /**
    * 读取章节内容
+   * @param {number} scrollTop 页面滚动到上次阅读位置
    */
-  readChildFile() {
+  readChildFile(scrollTop: number = 0) {
     // console.log(this.data.curChapter);
     // console.log(this.data.subFile);
     this.data.txtFileServ
@@ -249,8 +244,10 @@ Page<IIntroDetailData, IIntroPage>({
             ...res,
           });
           setTimeout(() =>{
+            // 页面滚动到上次阅读位置
             this.setData({
-              scrollTop: 0,
+              scrollTop,
+              scrollTopLock: false,
             });
           }, 0);
         },
@@ -267,6 +264,7 @@ Page<IIntroDetailData, IIntroPage>({
     // console.log('handleOnScroll', e);
     clearTimeout(this.data.timer);
     const timer = setTimeout(() => {
+      if (this.data.scrollTopLock) return;
       this.setData({
         scrollTop: e.detail.scrollTop,
       });
@@ -285,6 +283,7 @@ Page<IIntroDetailData, IIntroPage>({
     if (this.data.idx === 0) {
       this.setData({
         curChapter: this.data.curChapter - 1,
+        scrollTopLock: true,
       });
       this.readChildFile();
     } else {
@@ -308,6 +307,7 @@ Page<IIntroDetailData, IIntroPage>({
     if (this.data.idx === this.data.chapterArr.length - 1) {
       this.setData({
         curChapter: this.data.curChapter + 1,
+        scrollTopLock: true,
       });
       this.readChildFile();
     } else {
@@ -323,11 +323,11 @@ Page<IIntroDetailData, IIntroPage>({
   /**
    * 跳到某一章
    */
-  jumpChapter(curChapter: number) {
+  jumpChapter(curChapter: number, scrollTop: number = 0) {
     this.setData({
       curChapter,
     });
-    this.readChildFile();
+    this.readChildFile(scrollTop);
     this.updateCurChapter();
   },
   /**
